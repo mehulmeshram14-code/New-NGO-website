@@ -1,26 +1,253 @@
+@import url('https://fonts.cdnfonts.com/css/samarkan');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary-green: #597349;
+  --color-primary-brown: #4A311D;
+  --color-accent-gold: #E89230;
+  
+  --color-ivory: #F9F6EF;
+  --color-sand: #EDE4D5;
+  
+  --color-charcoal: #1E1E1E;
+  --color-muted: #6B6B61;
+  
+  --font-sans: var(--font-montserrat), sans-serif;
+  --font-serif: var(--font-dm-serif-display), serif;
+  --font-samarkan: 'Samarkan', sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-ivory text-charcoal font-sans;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-serif font-bold tracking-tight text-charcoal;
+}
+
+.font-editorial {
+  @apply font-serif;
+}
+
+.why-image-stage {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 34rem);
+  margin-inline: auto;
+}
+
+.why-image-stage::before {
+  content: "";
+  position: absolute;
+  inset: 1rem -0.75rem -0.75rem 1rem;
+  z-index: -1;
+  background: var(--color-sand);
+  clip-path: polygon(0 0, 88% 0, 100% 13%, 100% 82%, 72% 100%, 0 100%);
+}
+
+.why-image-shape {
+  clip-path: polygon(0 0, 88% 0, 100% 13%, 100% 82%, 72% 100%, 0 100%);
+}
+
+.why-image-accent {
+  position: absolute;
+  top: 1.75rem;
+  right: -1.25rem;
+  z-index: 1;
+  width: 4.5rem;
+  height: 4.5rem;
+  background: var(--color-accent-gold);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.impact-photo {
+  position: relative;
+  width: 9rem;
+  height: 7rem;
+  overflow: hidden;
+  border: 0.5rem solid white;
+  box-shadow: 0 0.5rem 1rem rgb(74 49 29 / 14%);
+}
+
+.impact-photo-one {
+  transform: rotate(-6deg);
+}
+
+.impact-photo-two {
+  margin: 1.25rem 0 0.5rem 2.5rem;
+  transform: rotate(5deg);
+}
+
+.impact-photo-three {
+  margin-left: auto;
+  transform: rotate(6deg);
+}
+
+.impact-photo-four {
+  margin: 1.25rem 2.5rem 0.5rem auto;
+  transform: rotate(-5deg);
+}
+
+.impact-hand {
+  position: absolute;
+  width: 7rem;
+  height: 3rem;
+  border: 0.35rem solid var(--color-accent-gold);
+  border-radius: 50%;
+  opacity: 0.45;
+}
+
+.impact-hand-left {
+  top: 1.5rem;
+  left: -3rem;
+  transform: rotate(28deg);
+}
+
+.impact-hand-right {
+  right: -3rem;
+  bottom: 1.5rem;
+  border-color: var(--color-primary-green);
+  transform: rotate(-28deg);
+}
+
+.india-impact-map {
+  overflow: visible;
+}
+
+.india-state {
+  fill: var(--color-ivory);
+  stroke: var(--color-primary-brown);
+  stroke-width: 1.25;
+  stroke-linejoin: round;
+  transition: fill 220ms ease;
+}
+
+.india-state-maharashtra {
+  fill: var(--color-primary-green);
+}
+
+.india-vidarbha {
+  fill: var(--color-accent-gold);
+  stroke: var(--color-primary-brown);
+  stroke-width: 1.5;
+  opacity: 0.95;
+}
+
+.india-map-marker {
+  fill: var(--color-ivory);
+  stroke: var(--color-primary-brown);
+  stroke-width: 2;
+}
+
+.india-map-pulse {
+  fill: none;
+  stroke: var(--color-accent-gold);
+  stroke-width: 2;
+  opacity: 0.7;
+}
+
+.india-map-callout {
+  fill: none;
+  stroke: var(--color-primary-brown);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+
+.india-map-label {
+  fill: var(--color-primary-brown);
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.india-map-subtitle {
+  fill: var(--color-muted);
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 10px;
+}
+
+.vidarbha-map {
+  overflow: visible;
+}
+
+.vidarbha-map-state {
+  fill: rgb(249 246 239 / 16%);
+  stroke: rgb(255 255 255 / 48%);
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+}
+
+.vidarbha-map-maharashtra {
+  fill: var(--color-primary-green);
+  stroke: var(--color-ivory);
+  stroke-width: 1.8;
+}
+
+.vidarbha-region {
+  fill: var(--color-accent-gold);
+  stroke: var(--color-ivory);
+  stroke-width: 2;
+  opacity: 0.92;
+}
+
+.vidarbha-marker {
+  fill: var(--color-ivory);
+  stroke: var(--color-primary-brown);
+  stroke-width: 2;
+}
+
+.vidarbha-marker-ring {
+  fill: none;
+  stroke: var(--color-accent-gold);
+  stroke-width: 2;
+  opacity: 0.85;
+}
+
+.vidarbha-callout {
+  fill: none;
+  stroke: var(--color-ivory);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+
+.vidarbha-label {
+  fill: var(--color-accent-gold);
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.vidarbha-subtitle {
+  fill: var(--color-ivory);
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 11px;
+}
+
+@media (max-width: 1023px) {
+  .why-image-stage::before,
+  .why-image-shape {
+    clip-path: none;
+  }
+
+  .why-image-stage::before {
+    inset: 0.75rem -0.5rem -0.5rem 0.75rem;
+    border-radius: 1.5rem;
+  }
+
+  .why-image-accent {
+    top: 1rem;
+    right: -0.5rem;
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .impact-photo {
+    width: 100%;
+    max-width: 10rem;
+    margin: 0 auto;
+  }
 }

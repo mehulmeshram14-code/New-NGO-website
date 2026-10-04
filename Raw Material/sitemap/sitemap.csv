@@ -1,0 +1,41 @@
+DeepRoots Foundation — Website Sitemap,,,,
+COLOUR LEGEND,,,,
+,Main Menu,Top navigation links visible on all pages,,
+,Sub Page,Pages within each main menu section,,
+,Page Section,Content blocks / sections within a page,,
+,Utility Page,"Footer links (Privacy, Terms, Volunteer)",,
+,Hidden Page,Not in navigation (e.g. Thank You page),,
+SITEMAP,,,,
+#,Page / Section Name,URL,What's on This Page,Type
+1.0,Home,/,Hero banner · Mission statement · Focus areas grid · Impact counters · Vision & values · CTA banner · Footer,Main Menu
+1.1,— Hero Section,,Full-width image with tagline and 'Our Work' button,Page Section
+1.2,— Mission Statement,,2–3 lines explaining what First Meal Foundation does,Page Section
+1.3,— Focus Areas,,"4 cards: Hunger & Nutrition, Education, Livelihood, Community Upliftment",Page Section
+1.4,— Impact Numbers,,"Animated counters: Meals Served, Children Reached, Volunteers, Communities",Page Section
+1.5,— Call-to-Action Banner,,'Join Us' / 'Volunteer' / 'Partner With Us' strip,Page Section
+2.0,About Us,/about-us,Our story · Vision & Mission · Core values · Team,Main Menu
+2.1,— Our Story,,How and why First Meal Foundation was started,Page Section
+2.2,— Vision & Mission,,Two styled blocks — what we see and what we do,Page Section
+2.3,— Core Values,,"Icon + label grid (e.g. Compassion, Transparency, Impact)",Page Section
+2.4,— Our Team,,"Photos, names, and short bios of key members",Page Section
+2.5,— Founding Team,,Founder and CO- Founder,
+3.0,Focus Area,/focus-areas,Overview of all 4 focus areas with dedicated sections,Main Menu
+3.1,— Hunger & Nutrition,/focus-areas/hunger,"Problem, our approach, stats, and photos",Sub Page
+3.2,— Education,/focus-areas/education,"Initiatives, reach, outcomes, and stories",Sub Page
+3.3,— Livelihood Development,/focus-areas/livelihood,Skill training and self-reliance programs,Sub Page
+3.4,— Community Upliftment,/focus-areas/community,Support for backward communities and inclusion programs,Sub Page
+4.0,Impact,/impact,Statistics · Success stories · Photo gallery,Main Menu
+4.1,— Statistics,,"Visual data cards: beneficiaries, meals, schools supported",Page Section
+4.2,— Success Stories,,"Story cards with photo, name, and short narrative",Page Section
+4.3,— Gallery,,Photos and videos from field activities and events,Page Section
+5.0,Blog & Updates,/blog,"Latest activities, events, and announcements",Main Menu
+5.1,— Activities,/blog/activities,On-ground activity reports and field updates,Sub Page
+5.2,— Events,/blog/events,Upcoming and past events with dates and details,Sub Page
+5.3,— Announcements,/blog/announcements,"News, partnerships, and recognitions",Sub Page
+6.0,Contact Us,/contact,Contact form · Address · Phone · Social media · Volunteer info,Main Menu
+6.1,— Contact Form,,"Fields: Name, Email, Phone, Subject, Message",Page Section
+6.2,— Volunteer Sign-Up,,Brief info on volunteering + sign-up button,Page Section
+U1,Privacy Policy,/privacy-policy,Legal privacy information,Utility Page
+U2,Terms of Use,/terms,Terms and conditions of using the website,Utility Page
+U3,Volunteer Sign-Up,/volunteer,Standalone volunteer registration page,Utility Page
+H1,Thank You Page,/thank-you,Shown after form submission — not in navigation,Hidden Page
