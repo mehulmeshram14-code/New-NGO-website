@@ -1,42 +1,38 @@
 {
-  "name": "deeproots-foundation",
-  "version": "0.1.0",
-  "private": true,
+  "name": "deeproot-foundation",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "next lint",
+    "test": "tsx scripts/test-razorpay-suite.ts"
   },
-  "dependencies": {
-    "@svg-maps/india": "^2.0.0",
-    "clsx": "^2.1.1",
-    "cors": "^2.8.6",
-    "dotenv": "^18.0.5",
-    "express": "^5.2.1",
-    "framer-motion": "^13.4.2",
-    "lucide-react": "^1.47.0",
-    "mongoose": "^9.10.4",
-    "next": "16.3.6",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
-    "svgmap-maharashtra": "^0.0.3",
-    "tailwind-merge": "^3.7.0"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.3.6",
-    "nodemon": "^3.1.14",
-    "tailwindcss": "^4",
-    "typescript": "^5"
-  },
-  "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).",
-  "main": "index.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "framer-motion": "^14.6.0",
+    "lucide-react": "^1.61.0",
+    "mongoose": "^9.11.4",
+    "next": "^16.4.3",
+    "razorpay": "^2.9.8",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^26.6.5",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.31",
+    "tailwindcss": "^3.4.14",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
 }
