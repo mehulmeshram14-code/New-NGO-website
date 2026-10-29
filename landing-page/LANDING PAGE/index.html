@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>DeepRoots Foundation | Every Child Deserves a First Meal</title>
+  <meta name="description" content="DeepRoots Foundation is working towards a hunger-free Vidarbha through food security, child nutrition, education, and sustainable livelihoods. Support our Daan Utsav campaign.">
+  <meta name="theme-color" content="#E65C00">
+  
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DeepRoots Foundation - Every Child Deserves a First Meal">
+  <meta property="og:description" content="Support hunger-free Vidarbha this Daan Utsav. Share a meal, nourish futures, empower communities.">
+  <meta property="og:image" content="assets/images/hero-children.jpg">
+
+  <!-- Google Fonts: Outfit (Headings) & Plus Jakarta Sans (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti for Celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Demo Viewport Switcher (Lets the user toggle between Web/Desktop layout and Mobile 375px Wireframe view) -->
+  <div class="viewport-controller" id="viewportController">
+    <div class="controller-pill">
+      <span class="controller-label">Preview Mode:</span>
+      <button class="controller-btn active" id="btnModeDesktop" onclick="setPreviewMode('desktop')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Desktop Web
+      </button>
+      <button class="controller-btn" id="btnModeMobile" onclick="setPreviewMode('mobile')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        Mobile Layout (375px)
+      </button>
+    </div>
+  </div>
+
+  <div class="app-viewport-wrapper" id="appViewportWrapper">
+    <div class="mobile-device-frame" id="mobileDeviceFrame">
+      
+      <!-- Top Announcement Banner -->
+      <div class="announcement-banner">
+        <div class="container banner-inner">
+          <span class="badge-pulse"></span>
+          <p><strong>Daan Utsav Special Drive</strong> • Every ₹25 provides 1 hot nutritious meal in Vidarbha • 80G Tax Exemption Available</p>
+          <a href="#urgency-section" class="banner-link">Donate Meals &rarr;</a>
+        </div>
+      </div>
+
+      <!-- Navigation Header -->
+      <header class="site-header" id="siteHeader">
+        <div class="container header-inner">
+          <!-- Logo & Brand -->
+          <a href="#" class="brand-link" aria-label="DeepRoots Foundation Home">
+            <img src="assets/images/logo.png" alt="Deep Roots Foundation Logo" class="brand-logo" width="48" height="48">
+            <div class="brand-text">
+              <span class="brand-name">deep roots</span>
+              <span class="brand-sub">foundation</span>
+            </div>
+          </a>
+
+          <!-- Campaign Badge from Wireframe: DAAN SE MUSKAAN -->
+          <div class="campaign-pill" title="Daan Utsav Campaign">
+            <span class="campaign-icon">✨</span>
+            <span class="campaign-title">DAAN SE MUSKAAN</span>
+          </div>
+
+          <!-- Desktop Navigation -->
+          <nav class="desktop-nav" aria-label="Main Navigation">
+            <a href="#about" class="nav-item">About Us</a>
+            <a href="#mission" class="nav-item">Mission</a>
+            <a href="#focus-areas" class="nav-item">Focus Areas</a>
+            <a href="#why-us" class="nav-item">Why Us</a>
+            <a href="#donors" class="nav-item">Donors</a>
+            <a href="#stories" class="nav-item">Stories</a>
+            <a href="#join" class="nav-item">Get Involved</a>
+          </nav>
+
+          <!-- Header Action Button -->
+          <div class="header-actions">
+            <button class="btn btn-orange btn-sm" onclick="openDonationModal(750)">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              Donate a Meal
+            </button>
+            <!-- Mobile Menu Toggle Button (Wireframe Hamburger) -->
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu" onclick="toggleMobileMenu()">
+              <span class="ham-line"></span>
+              <span class="ham-line"></span>
+              <span class="ham-line"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div class="mobile-drawer" id="mobileDrawer">
+          <div class="drawer-header">
+            <div class="brand-text">
+              <span class="brand-name">deep roots</span>
+              <span class="brand-sub">foundation</span>
+            </div>
+            <button class="drawer-close-btn" onclick="toggleMobileMenu()" aria-label="Close menu">&times;</button>
+          </div>
+          <div class="drawer-campaign-tag">
+            <span>DAAN SE MUSKAAN CAMPAIGN</span>
+          </div>
+          <nav class="mobile-nav-links">
+            <a href="#about" onclick="toggleMobileMenu()">About Us</a>
+            <a href="#mission" onclick="toggleMobileMenu()">Our Mission & Vision</a>
+            <a href="#focus-areas" onclick="toggleMobileMenu()">Our Focus Areas</a>
+            <a href="#why-us" onclick="toggleMobileMenu()">Why DeepRoots?</a>
+            <a href="#donors" onclick="toggleMobileMenu()">Recent Donors</a>
+            <a href="#join" onclick="toggleMobileMenu()">Join the Movement</a>
+            <a href="#stories" onclick="toggleMobileMenu()">Stories & Updates</a>
+            <a href="#contact" onclick="toggleMobileMenu()">Contact & 80G Info</a>
+          </nav>
+          <div class="drawer-footer">
+            <button class="btn btn-orange btn-full" onclick="toggleMobileMenu(); openDonationModal(750)">
+              Donate a Meal Today
+            </button>
+            <div class="drawer-contact-mini">
+              <small>Office: Amravati, Maharashtra</small>
+              <small>CIN: U88900ME2026NPL476439</small>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <!-- 1. HERO SECTION -->
+        <section class="hero-section" id="hero">
+          <div class="container hero-grid">
+            <div class="hero-content">
+              <div class="hero-tag">
+                <span class="hero-tag-dot"></span>
+                <span>VIDARBHA CHILD NUTRITION DRIVE</span>
+              </div>
+              <h1 class="hero-title">Every Child Deserves a First Meal.</h1>
+              <p class="hero-subtitle">Fighting hunger. Nourishing futures. Empowering communities.</p>
+              <p class="hero-description">
+                DeepRoots Foundation is working towards a hunger-free Vidarbha through food security, child nutrition, education, and sustainable livelihoods.
+              </p>
+              <div class="hero-cta-group">
+                <button class="btn btn-orange btn-lg shadow-orange" onclick="openDonationModal(750)">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                  Donate a Meal
+                </button>
+                <a href="#join" class="btn btn-outline btn-lg">
+                  Join Our Mission
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+              <div class="hero-trust-row">
+                <div class="trust-item">
+                  <span class="trust-icon">🛡️</span>
+                  <span>100% 80G Tax Exemption</span>
+                </div>
+                <div class="trust-item">
+                  <span class="trust-icon">📍</span>
+                  <span>Ground Action in Melghat & Gadchiroli</span>
+                </div>
+                <div class="trust-item">
+                  <span class="trust-icon">🍛</span>
+                  <span>₹25 = 1 Full Nutritious Meal</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero Visual Card (Wireframe: Smiling children photo + Daan Utsav line) -->
+            <div class="hero-visual-card">
+              <div class="image-wrapper hero-img-wrap">
+                <img src="assets/images/hero-children.jpg" alt="Smiling children enjoying their meal in Vidarbha during Daan Utsav" class="hero-img" loading="eager">
+                <div class="hero-img-overlay">
+                  <div class="daan-utsav-pill">
+                    <span class="pulse-indicator"></span>
+                    <span>This Daan Utsav, share a meal and a smile</span>
+                  </div>
+                </div>
+                <div class="hero-floating-stat">
+                  <div class="stat-icon-circle">🍲</div>
+                  <div class="stat-meta">
+                    <span class="stat-bold">10,000 Meals</span>
+                    <span class="stat-caption">Target for Vidarbha</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA Button matching wireframe flow after hero -->
+        <div class="section-cta-wireframe container">
+          <button class="btn btn-orange btn-full btn-wireframe-cta" onclick="openDonationModal(750)">
+            Share a meal today
+          </button>
+        </div>
+
+        <!-- VISUAL STORY SECTION (Wireframe: "This is daan" + "This is muskaan") -->
+        <section class="story-duo-section" id="story-duo">
+          <div class="container">
+            <div class="section-header text-center">
+              <span class="section-badge">THE STORY OF IMPACT</span>
+              <h2 class="section-title">From One Hand to a Radiant Smile</h2>
+              <p class="section-lead">See how your contribution directly transforms into nourishment and happiness on the ground.</p>
+            </div>
+
+            <div class="story-duo-grid">
+              <!-- Card 1: This is daan -->
+              <div class="story-card daan-card">
+                <div class="story-card-media">
+                  <img src="assets/images/daan-serving.jpg" alt="DeepRoots volunteer serving warm meals with care and dignity" class="story-img" loading="lazy">
+                  <span class="story-tag tag-daan">This is daan</span>
+                </div>
+                <div class="story-card-body">
+                  <h3 class="story-card-title">Volunteer Serving a Dignified Meal</h3>
+                  <p class="story-card-text">
+                    Our dedicated volunteers reach elderly shelters, marginalized tribal settlements, and remote villages in Vidarbha, serving fresh, hygienic, and warm meals with utmost respect.
+                  </p>
+                  <div class="story-quote">
+                    <em>"Daan is not charity; it is acknowledging our shared humanity and duty towards each other."</em>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 2: This is muskaan -->
+              <div class="story-card muskaan-card">
+                <div class="story-card-media">
+                  <img src="assets/images/muskaan.jpg" alt="A child smiling with pure contentment enjoying a nutritious meal" class="story-img" loading="lazy">
+                  <span class="story-tag tag-muskaan">This is muskaan</span>
+                </div>
+                <div class="story-card-body">
+                  <h3 class="story-card-title">A Nutritious Meal Being Enjoyed</h3>
+                  <p class="story-card-text">
+                    The happiness on a child's face when hunger is replaced by nourishment. A nourished child can concentrate in school, play freely, and look forward to a promising tomorrow.
+                  </p>
+                  <div class="story-quote">
+                    <em>"Muskaan is the silent blessing of a satisfied stomach and a heart filled with hope."</em>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- URGENCY BAR (Matching wireframe: [375 x 84 px] [X] meals funded of [X] goal + progress fill) -->
+        <section class="urgency-bar-section" id="urgency-section">
+          <div class="container">
+            <div class="urgency-bar-card">
+              <div class="urgency-bar-header">
+                <div class="urgency-label-group">
+                  <span class="live-dot"></span>
+                  <span class="urgency-title">LIVE CAMPAIGN URGENCY</span>
+                </div>
+                <div class="urgency-time-left">
+                  <span>⏱️ <strong>48 Hours Left</strong> in Daan Utsav Drive</span>
+                </div>
+              </div>
+
+              <div class="urgency-stat-line">
+                <span class="stat-highlight">
+                  <strong id="liveMealsCount">7,450</strong> meals funded of <strong>10,000</strong> goal
+                </span>
+                <span class="stat-percentage" id="livePercentage">74.5% Funded</span>
+              </div>
+
+              <!-- Progress bar fill -->
+              <div class="urgency-progress-track">
+                <div class="urgency-progress-fill" id="urgencyProgressFill" style="width: 74.5%;">
+                  <span class="fill-sparkle"></span>
+                </div>
+              </div>
+
+              <div class="urgency-footer-row">
+                <div class="stat-micro">
+                  <span>Target: <strong>10,000 Meals</strong></span>
+                  <span class="divider">•</span>
+                  <span>Remaining: <strong>2,550 Meals</strong></span>
+                </div>
+                <button class="btn btn-orange btn-sm" onclick="openDonationModal(750)">
+                  Share a meal today &rarr;
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA Button matching wireframe flow after urgency bar -->
+        <div class="section-cta-wireframe container">
+          <button class="btn btn-orange btn-full btn-wireframe-cta" onclick="openDonationModal(750)">
+            Share a meal today
+          </button>
+        </div>
+
+        <!-- 2. ABOUT US -->
+        <section class="about-section" id="about">
+          <div class="container">
+            <div class="about-grid">
+              <div class="about-content">
+                <span class="section-badge">ABOUT DEEPROOTS FOUNDATION</span>
+                <h2 class="section-title">Rooted in Vidarbha. Driven by Hope.</h2>
+                <p class="about-lead">
+                  From Melghat to Gadchiroli, we work to bridge the gap between hunger and opportunity. Our mission is to ensure every individual has access to nutritious food, quality education, and a dignified future.
+                </p>
+                <p class="about-text">
+                  Vidarbha has historically faced deep structural challenges — from severe child malnutrition in the Satpura ranges of Melghat to agrarian distress. DeepRoots was founded to plant roots of resilience through direct, verifiable grassroots intervention.
+                </p>
+
+                <!-- Impact Goals from Content -->
+                <div class="impact-goals-grid">
+                  <div class="goal-card">
+                    <div class="goal-icon">🎯</div>
+                    <div class="goal-number">10,000 People</div>
+                    <div class="goal-text">Targeted nutrition support in our first 18 months.</div>
+                  </div>
+                  <div class="goal-card">
+                    <div class="goal-icon">🏛️</div>
+                    <div class="goal-number">3 Pillars</div>
+                    <div class="goal-text">Food Security, Education, and Livelihoods.</div>
+                  </div>
+                  <div class="goal-card">
+                    <div class="goal-icon">🤝</div>
+                    <div class="goal-number">One Mission</div>
+                    <div class="goal-text">Build stronger, healthier, and self-reliant communities.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- About Team / Ground Action Media Showcase -->
+              <div class="about-media-column">
+                <div class="about-image-card main-team-card">
+                  <img src="assets/images/team-banner.jpg" alt="DeepRoots Foundation Team with official banner in Amravati" class="team-banner-img">
+                  <div class="official-creds-strip">
+                    <div class="cred-item">
+                      <span class="cred-title">OFFICE</span>
+                      <span class="cred-desc">Amravati, Maharashtra - 444606</span>
+                    </div>
+                    <div class="cred-item">
+                      <span class="cred-title">CIN</span>
+                      <span class="cred-desc">U88900ME2026NPL476439</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="about-sub-images-grid">
+                  <div class="sub-img-wrap">
+                    <img src="assets/images/community-smile.jpg" alt="Smiling volunteers and elderly community members" loading="lazy">
+                    <span class="sub-img-label">Compassionate Community</span>
+                  </div>
+                  <div class="sub-img-wrap">
+                    <img src="assets/images/community-group.jpg" alt="DeepRoots community shelter distribution" loading="lazy">
+                    <span class="sub-img-label">Grassroots Groundwork</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. OUR MISSION & VISION -->
+        <section class="mission-section" id="mission">
+          <div class="container">
+            <div class="mission-header text-center">
+              <span class="section-badge">PURPOSE & DIRECTION</span>
+              <h2 class="section-title">Nourish Today. Empower Tomorrow.</h2>
+              <p class="section-lead">
+                We believe food is the foundation of human potential. We aim to fight hunger first, then create pathways to education, employment, and long-term community development.
+              </p>
+            </div>
+
+            <!-- Vision Box -->
+            <div class="vision-banner">
+              <div class="vision-icon-wrap">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              </div>
+              <div class="vision-text">
+                <span class="vision-pretitle">OUR LONG-TERM VISION</span>
+                <h3 class="vision-quote">"A hunger-free, educated, and empowered Maharashtra."</h3>
+              </div>
+            </div>
+
+            <!-- 3 Pathways to Transformation -->
+            <div class="pathways-grid">
+              <div class="pathway-step">
+                <div class="pathway-badge">Stage 1</div>
+                <h4>Immediate Nutrition</h4>
+                <p>Ensuring no child sits in class on an empty stomach and no elderly citizen faces abandonment without wholesome food.</p>
+              </div>
+              <div class="pathway-arrow">&rarr;</div>
+              <div class="pathway-step">
+                <div class="pathway-badge">Stage 2</div>
+                <h4>Education & Retention</h4>
+                <p>Transforming food security into school enrollment and academic continuity for first-generation tribal learners.</p>
+              </div>
+              <div class="pathway-arrow">&rarr;</div>
+              <div class="pathway-step">
+                <div class="pathway-badge">Stage 3</div>
+                <h4>Sustainable Livelihoods</h4>
+                <p>Training women self-help groups and youth with skills that break generational poverty once and for all.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. OUR FOCUS AREAS -->
+        <section class="focus-section" id="focus-areas">
+          <div class="container">
+            <div class="section-header text-center">
+              <span class="section-badge">FOUR PILLARS OF ACTION</span>
+              <h2 class="section-title">Creating Change That Lasts.</h2>
+              <p class="section-lead">Holistic, sustainable initiatives designed to address the root causes of underdevelopment.</p>
+            </div>
+
+            <div class="focus-grid">
+              <!-- Focus 01 -->
+              <div class="focus-card">
+                <div class="focus-num">01</div>
+                <div class="focus-icon-circle bg-orange-soft">🍲</div>
+                <h3 class="focus-card-title">Food Security & Nutrition</h3>
+                <p class="focus-card-desc">
+                  Delivering nutritious food and community nutrition support to vulnerable families, tribal children, and destitute seniors across rural Vidarbha.
+                </p>
+                <ul class="focus-list">
+                  <li>Daily & seasonal meal distribution drives</li>
+                  <li>Targeted micronutrient supplements for kids</li>
+                  <li>Community kitchen infrastructure</li>
+                </ul>
+              </div>
+
+              <!-- Focus 02 -->
+              <div class="focus-card">
+                <div class="focus-num">02</div>
+                <div class="focus-icon-circle bg-green-soft">📚</div>
+                <h3 class="focus-card-title">Education & Literacy</h3>
+                <p class="focus-card-desc">
+                  Helping children stay in school while creating learning opportunities for women and underserved communities.
+                </p>
+                <ul class="focus-list">
+                  <li>School retention & mid-day nutrition tracking</li>
+                  <li>Remedial learning for tribal children</li>
+                  <li>Adult functional literacy circles</li>
+                </ul>
+              </div>
+
+              <!-- Focus 03 -->
+              <div class="focus-card">
+                <div class="focus-num">03</div>
+                <div class="focus-icon-circle bg-yellow-soft">🌱</div>
+                <h3 class="focus-card-title">Livelihood Development</h3>
+                <p class="focus-card-desc">
+                  Building skills, supporting women’s self-help groups (SHGs), and promoting sustainable income opportunities.
+                </p>
+                <ul class="focus-list">
+                  <li>Micro-enterprise training for rural women</li>
+                  <li>Agro-allied value addition workshops</li>
+                  <li>Youth vocational skill development</li>
+                </ul>
+              </div>
+
+              <!-- Focus 04 -->
+              <div class="focus-card">
+                <div class="focus-num">04</div>
+                <div class="focus-icon-circle bg-blue-soft">🤝</div>
+                <h3 class="focus-card-title">Community Upliftment</h3>
+                <p class="focus-card-desc">
+                  Supporting tribal communities, women, children, elderly people, and families facing severe economic hardship.
+                </p>
+                <ul class="focus-list">
+                  <li>Elderly care shelter nutritional visits</li>
+                  <li>Disaster & emergency crisis relief</li>
+                  <li>Rights awareness & documentation aid</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. WHY DEEPROOTS? -->
+        <section class="why-section" id="why-us">
+          <div class="container">
+            <div class="section-header text-center">
+              <span class="section-badge">OUR COMMITMENT</span>
+              <h2 class="section-title">Real Action. Lasting Impact.</h2>
+              <p class="section-lead">We operate with complete integrity, deep community integration, and measurable outcomes.</p>
+            </div>
+
+            <div class="why-grid">
+              <div class="why-card">
+                <div class="why-icon">🕊️</div>
+                <h3>Dignity First</h3>
+                <p>Every person deserves respect. Food is served with love and reverence, never as a patronizing handout.</p>
+              </div>
+
+              <div class="why-card">
+                <div class="why-icon">🌈</div>
+                <h3>Inclusive Support</h3>
+                <p>No discrimination based on caste, religion, gender, or ability. Our doors and services welcome everyone equally.</p>
+              </div>
+
+              <div class="why-card">
+                <div class="why-icon">👥</div>
+                <h3>Community-Led</h3>
+                <p>Solutions shaped by local needs. We collaborate with village sarpanchs, elders, and women to craft effective programs.</p>
+              </div>
+
+              <div class="why-card">
+                <div class="why-icon">📊</div>
+                <h3>Transparent Impact</h3>
+                <p>Accountability in every initiative. Regular photo proofs, impact metrics, and full financial transparency for all donors.</p>
+              </div>
+
+              <div class="why-card">
+                <div class="why-icon">🌳</div>
+                <h3>Locally Rooted</h3>
+                <p>Working towards a stronger Vidarbha and Maharashtra. Headquartered in Amravati with deep ties to remote forest hamlets.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DONOR SOCIAL PROOF WALL (Wireframe: 2-column on mobile, 4-column on desktop) -->
+        <section class="donor-wall-section" id="donors">
+          <div class="container">
+            <div class="section-header text-center">
+              <span class="section-badge">HALL OF KINDNESS</span>
+              <h2 class="section-title">Every Meal Tells a Story of Generosity</h2>
+              <p class="section-lead">Join over 240+ compassionate citizens who have stepped up for Vidarbha's children and elders.</p>
+            </div>
+
+            <!-- Wireframe Donor Badges Grid (2-column layout on mobile, dynamic updates) -->
+            <div class="donor-grid-wireframe" id="donorWallGrid">
+              <div class="donor-wireframe-item">
+                <div class="donor-avatar">RK</div>
+                <div class="donor-info">
+                  <span class="donor-name">Rajesh Kulkarni</span>
+                  <span class="donor-amount">₹2,000 <small>(80 meals)</small></span>
+                </div>
+                <span class="donor-time">4m ago</span>
+              </div>
+
+              <div class="donor-wireframe-item">
+                <div class="donor-avatar">AS</div>
+                <div class="donor-info">
+                  <span class="donor-name">Ananya Sharma</span>
+                  <span class="donor-amount">₹1,250 <small>(50 meals)</small></span>
+                </div>
+                <span class="donor-time">9m ago</span>
+              </div>
+
+              <div class="donor-wireframe-item">
+                <div class="donor-avatar">VM</div>
+                <div class="donor-info">
+                  <span class="donor-name">Vikram Malhotra</span>
+                  <span class="donor-amount">₹750 <small>(30 meals)</small></span>
+                </div>
+                <span class="donor-time">18m ago</span>
+              </div>
+
+              <div class="donor-wireframe-item">
+                <div class="donor-avatar">SD</div>
+                <div class="donor-info">
+                  <span class="donor-name">Sneha Deshmukh</span>
+                  <span class="donor-amount">₹450 <small>(18 meals)</small></span>
+                </div>
+                <span class="donor-time">32m ago</span>
+              </div>
+
+              <div class="donor-wireframe-item">
+                <div class="donor-avatar">AP</div>
+                <div class="donor-info">
+                  <span class="donor-name">Dr. Amit Patil</span>
+                  <span class="donor-amount">₹5,000 <small>(200 meals)</small></span>
+                </div>
+                <span class="donor-time">1h ago</span>
+              </div>
+
+              <div class="donor-wireframe-item">
+                <div class="donor-avatar">PJ</div>
+                <div class="donor-info">
+                  <span class="donor-name">Priya &amp; Rohan Joshi</span>
+                  <span class="donor-amount">₹1,250 <small>(50 meals)</small></span>
+                </div>
+                <span class="donor-time">2h ago</span>
+              </div>
+
+              <div class="donor-wireframe-item">
+                <div class="donor-avatar">SG</div>
+                <div class="donor-info">
+                  <span class="donor-name">Santosh Gaikwad</span>
+                  <span class="donor-amount">₹750 <small>(30 meals)</small></span>
+                </div>
+                <span class="donor-time">3h ago</span>
+              </div>
+
+              <div class="donor-wireframe-item">
+                <div class="donor-avatar">NA</div>
+                <div class="donor-info">
+                  <span class="donor-name">Neha Agarwal</span>
+                  <span class="donor-amount">₹2,000 <small>(80 meals)</small></span>
+                </div>
+                <span class="donor-time">4h ago</span>
+              </div>
+            </div>
+
+            <div class="donor-action-row text-center">
+              <button class="btn btn-orange" onclick="openDonationModal(750)">
+                Add Your Name to the Wall
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. JOIN THE MOVEMENT -->
+        <section class="join-section" id="join">
+          <div class="container">
+            <div class="section-header text-center">
+              <span class="section-badge">GET INVOLVED</span>
+              <h2 class="section-title">Be the Reason Someone Eats Today.</h2>
+              <p class="section-lead">A small contribution can help provide a meal, support a child’s education, or empower a family towards a better future.</p>
+            </div>
+
+            <div class="join-cards-grid">
+              <!-- Action 1: Donate -->
+              <div class="action-card card-donate">
+                <div class="action-badge">INDIVIDUAL IMPACT</div>
+                <div class="action-icon">🍛</div>
+                <h3 class="action-title">Donate</h3>
+                <p class="action-desc">Help fight hunger, one meal at a time. Sponsor daily meals for tribal school children or shelter elders.</p>
+                <div class="action-impact-note">₹450 feeds 18 children • 80G tax benefit</div>
+                <button class="btn btn-orange btn-full" onclick="openDonationModal(750)">
+                  Donate Now
+                </button>
+              </div>
+
+              <!-- Action 2: Volunteer -->
+              <div class="action-card card-volunteer">
+                <div class="action-badge">ON GROUND ACTION</div>
+                <div class="action-icon">🙌</div>
+                <h3 class="action-title">Volunteer</h3>
+                <p class="action-desc">Share your time, skills, and compassion. Join our distribution teams in Amravati, Melghat, and surrounding regions.</p>
+                <div class="action-impact-note">Weekend drives • Skill mentorship • Ground support</div>
+                <button class="btn btn-green btn-full" onclick="openVolunteerModal()">
+                  Become a Volunteer
+                </button>
+              </div>
+
+              <!-- Action 3: Partner -->
+              <div class="action-card card-partner">
+                <div class="action-badge">CSR &amp; INSTITUTIONS</div>
+                <div class="action-icon">🏢</div>
+                <h3 class="action-title">Partner With Us</h3>
+                <p class="action-desc">Collaborate to create meaningful social impact. Integrate CSR initiatives for long-term malnutrition eradication.</p>
+                <div class="action-impact-note">Custom CSR programs • Transparent audit reports</div>
+                <button class="btn btn-outline btn-full" onclick="openPartnerModal()">
+                  Partner With Us
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. BLOG & UPDATES -->
+        <section class="blog-section" id="stories">
+          <div class="container">
+            <div class="section-header text-center">
+              <span class="section-badge">FIELD UPDATES</span>
+              <h2 class="section-title">Stories of Change.</h2>
+              <p class="section-lead">Discover our latest community initiatives, field activities, events, and announcements.</p>
+            </div>
+
+            <!-- Category Filter Tabs -->
+            <div class="blog-tabs" id="blogTabs">
+              <button class="blog-tab active" data-category="all" onclick="filterBlogPosts('all')">All Stories</button>
+              <button class="blog-tab" data-category="activities" onclick="filterBlogPosts('activities')">Activities</button>
+              <button class="blog-tab" data-category="events" onclick="filterBlogPosts('events')">Events</button>
+              <button class="blog-tab" data-category="announcements" onclick="filterBlogPosts('announcements')">Announcements</button>
+            </div>
+
+            <!-- Blog Grid -->
+            <div class="blog-grid" id="blogGrid">
+              <!-- Post 1: Activities -->
+              <article class="blog-card" data-category="activities">
+                <div class="blog-thumb">
+                  <img src="assets/images/daan-serving.jpg" alt="Distribution of hot meals in Melghat" loading="lazy">
+                  <span class="category-chip cat-activities">Activities</span>
+                </div>
+                <div class="blog-body">
+                  <div class="blog-meta">
+                    <span>📅 Oct 2026</span> • <span>⏱️ 3 min read</span>
+                  </div>
+                  <h3 class="blog-title">Over 1,200 Hot Meals Distributed in Melghat Tribal Belt During Daan Utsav</h3>
+                  <p class="blog-excerpt">
+                    Our ground volunteers journeyed through 6 remote hamlets in the Satpura range to deliver nutritious grain kits and hot lunches to elderly citizens and malnourished infants.
+                  </p>
+                  <button class="read-more-btn" onclick="openStoryModal('melghat')">Read full report &rarr;</button>
+                </div>
+              </article>
+
+              <!-- Post 2: Events -->
+              <article class="blog-card" data-category="events">
+                <div class="blog-thumb">
+                  <img src="assets/images/community-smile.jpg" alt="Nutrition screening and elderly gathering in Amravati" loading="lazy">
+                  <span class="category-chip cat-events">Events</span>
+                </div>
+                <div class="blog-body">
+                  <div class="blog-meta">
+                    <span>📅 Oct 2026</span> • <span>⏱️ 4 min read</span>
+                  </div>
+                  <h3 class="blog-title">Nutrition &amp; Health Screening Camp Organized for 150+ Elders in Amravati</h3>
+                  <p class="blog-excerpt">
+                    In partnership with local healthcare practitioners, DeepRoots hosted a comprehensive health checkup alongside wholesome Ayurvedic meals for senior shelter residents.
+                  </p>
+                  <button class="read-more-btn" onclick="openStoryModal('amravati')">Read full report &rarr;</button>
+                </div>
+              </article>
+
+              <!-- Post 3: Announcements -->
+              <article class="blog-card" data-category="announcements">
+                <div class="blog-thumb">
+                  <img src="assets/images/hero-children.jpg" alt="Children receiving educational and meal supplies" loading="lazy">
+                  <span class="category-chip cat-announcements">Announcements</span>
+                </div>
+                <div class="blog-body">
+                  <div class="blog-meta">
+                    <span>📅 Sep 2026</span> • <span>⏱️ 2 min read</span>
+                  </div>
+                  <h3 class="blog-title">DeepRoots Launches 'First Meal' Initiative Across 12 Vidarbha Villages</h3>
+                  <p class="blog-excerpt">
+                    A formal blueprint to guarantee morning nutrition for 1,500 primary school students, tackling classroom hunger and improving cognitive attendance rates.
+                  </p>
+                  <button class="read-more-btn" onclick="openStoryModal('first-meal')">Read full report &rarr;</button>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. CLOSING SECTION -->
+        <section class="closing-section">
+          <div class="container text-center closing-inner">
+            <span class="closing-badge">A PROMISE FOR VIDARBHA</span>
+            <h2 class="closing-title">A Better Tomorrow Begins With One Meal.</h2>
+            <p class="closing-desc">
+              We believe lasting change begins when communities receive the nourishment, opportunities, and dignity they deserve. Together, let’s build a hunger-free and empowered Maharashtra.
+            </p>
+            <div class="closing-cta-wrapper">
+              <button class="btn btn-orange btn-xl pulse-glow" onclick="openDonationModal(1250)">
+                Join the First Meal Movement
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- FOOTER (Wireframe: [375 x 200 px] Darpan ID, 80G no., contact, share icons) -->
+      <footer class="site-footer" id="contact">
+        <div class="container">
+          <div class="footer-grid">
+            <!-- Brand & Mission Column -->
+            <div class="footer-col brand-col">
+              <div class="footer-brand">
+                <img src="assets/images/logo.png" alt="Deep Roots Foundation" class="footer-logo">
+                <div class="brand-text">
+                  <span class="brand-name font-light">deep roots</span>
+                  <span class="brand-sub">foundation</span>
+                </div>
+              </div>
+              <p class="footer-tagline">
+                Nourish Today. Empower Tomorrow. A registered Section 8 non-profit organization dedicated to a hunger-free Vidarbha and empowered Maharashtra.
+              </p>
+              <div class="footer-tax-badge">
+                <span class="shield-icon">🛡️</span>
+                <span>Donations are 50% Tax Exempt under Section 80G</span>
+              </div>
+            </div>
+
+            <!-- Official Registration Details (From Real Ground Banner) -->
+            <div class="footer-col legal-col">
+              <h4 class="footer-heading">Government Registrations</h4>
+              <ul class="legal-list">
+                <li>
+                  <span class="label">CIN:</span>
+                  <span class="value code">U88900ME2026NPL476439</span>
+                </li>
+                <li>
+                  <span class="label">Darpan ID:</span>
+                  <span class="value code">MH/2026/0491823</span>
+                </li>
+                <li>
+                  <span class="label">80G Reg. No:</span>
+                  <span class="value code">AAATD1234EF20261</span>
+                </li>
+                <li>
+                  <span class="label">Registered Office:</span>
+                  <span class="value">24/1/23, Gauri Shankar Nagar, Rukhmini Nagar, Amravati - 444606, Maharashtra</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-col links-col">
+              <h4 class="footer-heading">Quick Links</h4>
+              <ul class="footer-links">
+                <li><a href="#about">About Our Work</a></li>
+                <li><a href="#mission">Mission &amp; Vision</a></li>
+                <li><a href="#focus-areas">Focus Areas</a></li>
+                <li><a href="#why-us">Why DeepRoots</a></li>
+                <li><a href="#donors">Recent Donors Wall</a></li>
+                <li><a href="#stories">Field Stories &amp; Reports</a></li>
+              </ul>
+            </div>
+
+            <!-- Contact & Social Sharing -->
+            <div class="footer-col contact-col">
+              <h4 class="footer-heading">Contact &amp; Share</h4>
+              <div class="contact-links">
+                <p>📧 <a href="mailto:contact@deeprootsfoundation.org">contact@deeprootsfoundation.org</a></p>
+                <p>📞 <a href="tel:+917620290895">+91 76202 90895</a></p>
+                <p>📍 Amravati • Melghat • Gadchiroli</p>
+              </div>
+
+              <!-- Social Share Icons (From Wireframe) -->
+              <div class="share-box">
+                <span class="share-title">Spread the Word:</span>
+                <div class="share-buttons-row">
+                  <button class="share-btn whatsapp-btn" onclick="shareCampaign('whatsapp')" title="Share on WhatsApp" aria-label="Share on WhatsApp">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.42 0-2.81-.37-4.04-1.07l-.29-.17-3.11.82.83-3.03-.19-.31a8.192 8.192 0 0 1-1.26-4.48c0-4.54 3.7-8.24 8.24-8.24m4.52 11.64c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.45 1.03 2.62.13.17 1.78 2.71 4.3 3.8.6.26 1.07.41 1.44.53.61.19 1.16.17 1.6.1.49-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.17-.48-.29z"/></svg>
+                  </button>
+                  <button class="share-btn twitter-btn" onclick="shareCampaign('twitter')" title="Share on X / Twitter" aria-label="Share on X">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  </button>
+                  <button class="share-btn linkedin-btn" onclick="shareCampaign('linkedin')" title="Share on LinkedIn" aria-label="Share on LinkedIn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2z"/></svg>
+                  </button>
+                  <button class="share-btn copy-btn" onclick="shareCampaign('copy')" title="Copy Link" aria-label="Copy Link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-bottom">
+            <p>&copy; 2026 DeepRoots Foundation. All Rights Reserved. Built with heart for Vidarbha.</p>
+            <div class="footer-badges">
+              <span>Section 8 Registered</span> • <span>NITI Aayog Darpan</span> • <span>Income Tax 80G Certified</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      <!-- STICKY BOTTOM BAR (Matching wireframe layout) -->
+      <!-- "Sticky bar that stays fixed throughout the scroll" -->
+      <!-- "This Daan Utsav, share a meal and a smile" -->
+      <!-- [₹450] [₹750] [₹1,250] [₹2,000] [Other amount] [Donate now] -->
+      <aside class="sticky-donation-bar" id="stickyDonationBar" aria-label="Quick Donation Bar">
+        <div class="sticky-inner container">
+          
+          <div class="sticky-header-row">
+            <div class="sticky-caption">
+              <span class="sticky-sparkle">✨</span>
+              <span class="sticky-text">This Daan Utsav, share a meal and a smile</span>
+            </div>
+            <div class="sticky-meals-preview" id="stickyMealsPreview">
+              <span>Feeding <strong>30 children</strong></span>
+            </div>
+          </div>
+
+          <div class="sticky-controls-row">
+            <!-- Amount Pills -->
+            <div class="amount-pills" role="radiogroup" aria-label="Select donation amount">
+              <button type="button" class="amount-pill" data-amount="450" onclick="selectQuickAmount(450)">
+                ₹450
+              </button>
+              <button type="button" class="amount-pill active" data-amount="750" onclick="selectQuickAmount(750)">
+                ₹750
+              </button>
+              <button type="button" class="amount-pill" data-amount="1250" onclick="selectQuickAmount(1250)">
+                ₹1,250
+              </button>
+              <button type="button" class="amount-pill" data-amount="2000" onclick="selectQuickAmount(2000)">
+                ₹2,000
+              </button>
+            </div>
+
+            <!-- Other Amount & Donate Button -->
+            <div class="sticky-action-group">
+              <div class="other-amount-wrapper">
+                <span class="currency-prefix">₹</span>
+                <input type="number" id="otherAmountInput" class="other-amount-input" placeholder="Other amount" min="50" step="50" oninput="handleOtherAmountInput(this.value)">
+              </div>
+              <button type="button" class="btn btn-orange sticky-donate-btn" onclick="submitStickyDonation()">
+                Donate now
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- DONATION MODAL (Step-by-step interactive flow with 80G receipt, UPI/QR and instant donor wall update) -->
+  <dialog class="app-modal" id="donationModal" aria-labelledby="modalTitle">
+    <div class="modal-dialog-content">
+      <button class="modal-close-btn" onclick="closeDonationModal()" aria-label="Close modal">&times;</button>
+      
+      <div class="modal-header">
+        <div class="modal-badge">DAAN SE MUSKAAN</div>
+        <h3 id="modalTitle">Complete Your Donation</h3>
+        <p class="modal-subtitle">100% of your donation delivers fresh, wholesome food in Vidarbha.</p>
+      </div>
+
+      <!-- Meal Impact Counter -->
+      <div class="modal-impact-banner">
+        <div class="impact-stat-big">
+          <span class="impact-num" id="modalMealCount">30</span>
+          <span class="impact-label">Hot Nutritious Meals</span>
+        </div>
+        <div class="impact-note">
+          Amount: <strong id="modalAmountDisplay">₹750</strong> (Calculated @ ₹25/meal)
+        </div>
+      </div>
+
+      <form id="donationForm" onsubmit="processDonation(event)">
+        <!-- Step 1: Donor Details -->
+        <div class="form-group">
+          <label for="donorFullName">Your Name <span class="req">*</span></label>
+          <input type="text" id="donorFullName" class="form-input" placeholder="e.g. Rahul Sharma" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="donorEmail">Email Address <span class="req">*</span></label>
+            <input type="email" id="donorEmail" class="form-input" placeholder="for 80G tax receipt" required>
+          </div>
+          <div class="form-group">
+            <label for="donorPhone">Phone Number <span class="req">*</span></label>
+            <input type="tel" id="donorPhone" class="form-input" placeholder="10-digit mobile" required>
+          </div>
+        </div>
+
+        <!-- 80G PAN Details Toggle -->
+        <div class="tax-toggle-box">
+          <label class="checkbox-label">
+            <input type="checkbox" id="taxExemptionCheck" onchange="togglePanField(this.checked)">
+            <span>I want an <strong>80G Tax Exemption Certificate</strong></span>
+          </label>
+          <div class="pan-input-box hidden" id="panInputContainer">
+            <label for="donorPan">Permanent Account Number (PAN)</label>
+            <input type="text" id="donorPan" class="form-input" placeholder="ABCDE1234F" maxlength="10">
+            <small class="field-hint">Required by Government of India for 80G deduction.</small>
+          </div>
+        </div>
+
+        <!-- Step 2: Payment Method Selection -->
+        <div class="payment-method-group">
+          <label class="section-label">Select Payment Method:</label>
+          <div class="payment-options">
+            <label class="pay-option">
+              <input type="radio" name="payMethod" value="upi" checked>
+              <span class="pay-label">
+                <span class="pay-icon">⚡</span>
+                <span>UPI / QR (GPay, PhonePe, Paytm)</span>
+              </span>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payMethod" value="card">
+              <span class="pay-label">
+                <span class="pay-icon">💳</span>
+                <span>Credit / Debit Card</span>
+              </span>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payMethod" value="netbanking">
+              <span class="pay-label">
+                <span class="pay-icon">🏦</span>
+                <span>Net Banking</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-orange btn-full btn-lg modal-submit-btn" id="btnConfirmDonation">
+          Proceed to Pay <span id="btnPayAmount">₹750</span>
+        </button>
+
+        <p class="modal-secure-note">
+          🔒 256-bit SSL Encrypted • Tax Exemption Eligible • Direct Foundation Account
+        </p>
+      </form>
+
+      <!-- Simulated Success View -->
+      <div class="donation-success-view hidden" id="donationSuccessView">
+        <div class="success-icon-wrap">🎉</div>
+        <h3>Thank You, Generous Soul!</h3>
+        <p class="success-message">
+          Your donation of <strong id="successAmount">₹750</strong> was received successfully! You have funded <strong id="successMeals">30 meals</strong> for children and elders in Vidarbha.
+        </p>
+
+        <div class="receipt-card">
+          <div class="receipt-row">
+            <span>Reference ID:</span>
+            <strong id="successTxnId">DRF-2026-9812</strong>
+          </div>
+          <div class="receipt-row">
+            <span>Donor:</span>
+            <strong id="successName">Rahul Sharma</strong>
+          </div>
+          <div class="receipt-row">
+            <span>80G Receipt:</span>
+            <span>Sent to your email</span>
+          </div>
+          <div class="receipt-row">
+            <span>DeepRoots CIN:</span>
+            <span>U88900ME2026NPL476439</span>
+          </div>
+        </div>
+
+        <div class="success-actions">
+          <button class="btn btn-orange" onclick="downloadReceiptMock()">
+            📥 Download 80G Receipt
+          </button>
+          <button class="btn btn-outline" onclick="closeDonationModal()">
+            Back to Campaign
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </dialog>
+
+  <!-- VOLUNTEER REGISTRATION MODAL -->
+  <dialog class="app-modal" id="volunteerModal">
+    <div class="modal-dialog-content">
+      <button class="modal-close-btn" onclick="closeVolunteerModal()">&times;</button>
+      <div class="modal-header">
+        <div class="modal-badge">JOIN ON THE GROUND</div>
+        <h3>Become a DeepRoots Volunteer</h3>
+        <p class="modal-subtitle">Lend your hands, heart, and skills to feed and empower Vidarbha.</p>
+      </div>
+
+      <form onsubmit="handleVolunteerSubmit(event)">
+        <div class="form-group">
+          <label>Full Name <span class="req">*</span></label>
+          <input type="text" class="form-input" required placeholder="Your full name">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Mobile Number <span class="req">*</span></label>
+            <input type="tel" class="form-input" required placeholder="10-digit number">
+          </div>
+          <div class="form-group">
+            <label>City / Region <span class="req">*</span></label>
+            <input type="text" class="form-input" required placeholder="e.g. Amravati, Nagpur, Pune">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>How would you like to contribute?</label>
+          <select class="form-input" required>
+            <option value="">Select your area of interest</option>
+            <option value="meal-dist">Food Preparation &amp; Distribution</option>
+            <option value="child-edu">Child Education &amp; Tutoring</option>
+            <option value="medical">Health &amp; Nutrition Camps</option>
+            <option value="digital">Digital, Design &amp; Social Media</option>
+            <option value="ground">Melghat Field Trips</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-green btn-full btn-lg">Submit Volunteer Application</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- PARTNER / CSR MODAL -->
+  <dialog class="app-modal" id="partnerModal">
+    <div class="modal-dialog-content">
+      <button class="modal-close-btn" onclick="closePartnerModal()">&times;</button>
+      <div class="modal-header">
+        <div class="modal-badge">CORPORATE &amp; CSR</div>
+        <h3>Partner With DeepRoots Foundation</h3>
+        <p class="modal-subtitle">Co-create high-impact, transparent nutritional and educational programs.</p>
+      </div>
+
+      <form onsubmit="handlePartnerSubmit(event)">
+        <div class="form-group">
+          <label>Organization / Corporate Name <span class="req">*</span></label>
+          <input type="text" class="form-input" required placeholder="Company or Foundation Name">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Contact Person <span class="req">*</span></label>
+            <input type="text" class="form-input" required placeholder="Full Name">
+          </div>
+          <div class="form-group">
+            <label>Corporate Email <span class="req">*</span></label>
+            <input type="email" class="form-input" required placeholder="email@company.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Partnership Scope</label>
+          <select class="form-input" required>
+            <option value="">Select partnership type</option>
+            <option value="csr-nutrition">CSR Child Nutrition Program (Melghat)</option>
+            <option value="shg-livelihood">Women's SHG Livelihood Grant</option>
+            <option value="in-kind">Food Grain &amp; Nutritional Supplies Donation</option>
+            <option value="payroll">Employee Payroll Giving Campaign</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Brief Message</label>
+          <textarea class="form-input" rows="3" placeholder="Tell us about your organization's vision..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-orange btn-full btn-lg">Send Partnership Inquiry</button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- STORY DETAIL MODAL -->
+  <dialog class="app-modal" id="storyModal">
+    <div class="modal-dialog-content">
+      <button class="modal-close-btn" onclick="closeStoryModal()">&times;</button>
+      <div id="storyModalContent">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

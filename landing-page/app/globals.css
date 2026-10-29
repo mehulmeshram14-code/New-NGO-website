@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Samarkan';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/SAMARN__.woff') format('woff'),
+       url('https://fonts.cdnfonts.com/s/5790/SAMARN__.woff') format('woff');
+}
+
+.font-samarkan {
+  font-family: 'Samarkan', var(--font-serif), Georgia, serif;
+  letter-spacing: 0.03em;
+}
+
+@layer base {
+  :root {
+    --font-serif: "DM Serif Display", serif;
+    --font-sans: "Inter", sans-serif;
+    --font-samarkan: "Samarkan", serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: #FAF7F0;
+    color: #173F30;
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Accessible focus indicators with leaf green */
+  :focus-visible {
+    outline: 2px solid #66873b;
+    outline-offset: 2px;
+  }
+}
+
+/* Custom scrollbar with saffron & deep green */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF7F0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fa9f19;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #173F30;
+}
+
+/* Selection highlight */
+::selection {
+  background-color: #fa9f19;
+  color: #173F30;
+}
+
+/* Print optimizations for acknowledgement slips */
+@media print {
+  header, footer, button, nav {
+    display: none !important;
+  }
+  body {
+    background: #FFF !important;
+    color: #000 !important;
+    padding: 0 !important;
+  }
+  .print-receipt-container {
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+  }
+}
+
+/* Continuous Sliding & Marquee Scrolling */
+@keyframes marquee-scroll-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-scroll-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.marquee-track-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll-left 45s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll-right 48s linear infinite;
+  will-change: transform;
+}
+
+.marquee-container:hover .marquee-track-left,
+.marquee-container:hover .marquee-track-right {
+  animation-play-state: paused;
+}
