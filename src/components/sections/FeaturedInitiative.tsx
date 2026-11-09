@@ -35,8 +35,8 @@ export function FeaturedInitiative() {
           className="relative w-full max-w-5xl aspect-video rounded-3xl overflow-hidden mb-12 shadow-2xl"
         >
           <Image 
-            src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070&auto=format&fit=crop"
-            alt="First Meal Initiative"
+            src="/photos/volunteer-serving-meal.jpg"
+            alt="A DeepRoots volunteer serving a meal to elder-care residents in Amravati"
             fill
             className="object-cover"
           />
@@ -59,10 +59,10 @@ export function FeaturedInitiative() {
           transition={{ delay: 0.4 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <Button href="/donate" variant="secondary" size="lg">
+          <Button href="/campaign/hunger-free" variant="secondary" size="lg">
             Support First Meal
           </Button>
-          <Button href="/work#first-meal" variant="outline" size="lg" className="border-ivory text-ivory hover:bg-ivory hover:text-primary-green focus:ring-ivory">
+          <Button href="/work#phase-1" variant="outline" size="lg" className="border-ivory text-ivory hover:bg-ivory hover:text-primary-green focus:ring-ivory">
             Learn More
           </Button>
         </motion.div>

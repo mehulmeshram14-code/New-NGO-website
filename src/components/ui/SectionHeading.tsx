@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
 import { cn } from "./Button";
 
 interface SectionHeadingProps {
@@ -25,7 +24,7 @@ export function SectionHeading({ title, subtitle, className, align = "center" }:
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-accent-terracotta font-bold tracking-widest uppercase text-sm"
+          className="text-accent-gold font-bold tracking-widest uppercase text-sm"
         >
           {subtitle}
         </motion.span>

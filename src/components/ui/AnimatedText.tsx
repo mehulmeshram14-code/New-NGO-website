@@ -10,7 +10,7 @@ export function AnimatedText({
 }: { 
   text: string; 
   className?: string;
-  as?: any;
+  as?: "h1" | "h2" | "h3" | "p" | "span";
 }) {
   const words = text.split(" ");
 

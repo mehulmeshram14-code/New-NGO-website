@@ -28,7 +28,7 @@ export const landingContent = {
   values: [
     { title: "Dignity first", text: "No one we serve is a photo opportunity. Every person we work with is a partner, never a passive recipient of charity." },
     { title: "Inclusion without exception", text: "We go to the communities that state welfare tends to miss." },
-    { title: "Evidence and accountability", text: "We measure what we do and we publish it—both the wins and the failures alike. Our accounts are open for anyone to see." },
+    { title: "Evidence and accountability", text: "We measure what we do and we publish it—both the wins and the failures alike. Our audited accounts will be published on our Transparency page." },
     { title: "Built with communities", text: "Nothing we design happens without the people it's meant to serve." },
     { title: "Local roots, global standards", text: "Our language, relationships, and solutions come from Vidarbha's soil, held to the rigour of the best organisations in the world." },
   ],

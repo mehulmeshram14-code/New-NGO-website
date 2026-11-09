@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { team } from "@/data/team";
+import { team, type TeamMember } from "@/data/team";
 import Image from "next/image";
 
 export function TeamSection() {
@@ -12,19 +12,20 @@ export function TeamSection() {
     offset: ["start end", "end start"]
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  // Background decorations drift in opposite directions as the section scrolls.
+  const driftDown = useTransform(scrollYProgress, [0, 1], [-200, 200]);
+  const driftUp = useTransform(scrollYProgress, [0, 1], [200, -200]);
 
   return (
     <section id="team" ref={containerRef} className="py-32 bg-ivory relative overflow-hidden">
       {/* Background decoration */}
       <motion.div 
         className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary-green/5 rounded-full blur-3xl pointer-events-none"
-        style={{ y: useTransform(scrollYProgress, [0, 1], [-200, 200]) }}
+        style={{ y: driftDown }}
       />
       <motion.div 
         className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-gold/10 rounded-full blur-3xl pointer-events-none"
-        style={{ y: useTransform(scrollYProgress, [0, 1], [200, -200]) }}
+        style={{ y: driftUp }}
       />
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
@@ -57,7 +58,16 @@ export function TeamSection() {
   );
 }
 
-function TeamMemberCard({ member, index }: { member: any, index: number }) {
+function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]!.toUpperCase())
+    .join("");
+}
+
+function TeamMemberCard({ member, index }: { member: TeamMember; index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -77,13 +87,19 @@ function TeamMemberCard({ member, index }: { member: any, index: number }) {
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <Image
-          src={member.image}
-          alt={member.name}
-          fill
-          className="object-cover object-center opacity-90 group-hover:opacity-100 transition-opacity duration-500"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+        {member.image ? (
+          <Image
+            src={member.image}
+            alt={member.name}
+            fill
+            className="object-cover object-center opacity-90 group-hover:opacity-100 transition-opacity duration-500"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ) : (
+          <div aria-hidden="true" className="absolute inset-0 flex items-center justify-center bg-primary-green">
+            <span className="font-serif text-8xl text-ivory/80">{initials(member.name)}</span>
+          </div>
+        )}
       </motion.div>
 
       {/* Gradient Overlay for Text Readability - Becomes darker on hover */}
@@ -98,16 +114,11 @@ function TeamMemberCard({ member, index }: { member: any, index: number }) {
           {member.role}
         </p>
         
-        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out delay-100">
-          <p className="text-ivory/90 text-sm leading-relaxed line-clamp-4">
-            {member.bio}
-          </p>
-          <div className="mt-5 pt-4 border-t border-ivory/20">
-            <button className="text-xs font-semibold text-ivory hover:text-accent-gold transition-colors flex items-center gap-2 tracking-wide uppercase">
-              Read Story <span className="text-lg leading-none transform group-hover:translate-x-1 transition-transform">&rarr;</span>
-            </button>
+        {member.bio && (
+          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out delay-100">
+            <p className="text-ivory/90 text-sm leading-relaxed line-clamp-4">{member.bio}</p>
           </div>
-        </div>
+        )}
       </div>
     </motion.div>
   );

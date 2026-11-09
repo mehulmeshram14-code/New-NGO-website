@@ -34,7 +34,7 @@ export function WhyDeeproots() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="space-y-6 text-lg md:text-xl text-muted font-serif italic border-l-2 border-accent-terracotta pl-6 mb-8"
+              className="space-y-6 text-lg md:text-xl text-muted font-serif italic border-l-2 border-accent-gold pl-6 mb-8"
             >
               <p>“For a child, it can mean the strength to stay in school.</p>
               <p>For a mother, it can mean one less impossible choice.</p>

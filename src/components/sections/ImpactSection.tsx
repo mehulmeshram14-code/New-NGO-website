@@ -32,10 +32,10 @@ export function ImpactSection() {
           <div className="relative grid items-center gap-10 lg:grid-cols-[0.9fr_1.2fr_0.9fr]">
             <div className="hidden gap-4 sm:grid grid-cols-2 lg:block">
               <div className="impact-photo impact-photo-one">
-                <Image src="https://images.unsplash.com/photo-1594708767771-a7502209ff51?q=80&w=1200&auto=format&fit=crop" alt="Community meal programme" fill className="object-cover" />
+                <Image src="/photos/volunteer-serving-meal.jpg" alt="A DeepRoots volunteer serving a meal to elder-care residents" fill sizes="160px" className="object-cover" />
               </div>
               <div className="impact-photo impact-photo-two">
-                <Image src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop" alt="Children learning together" fill className="object-cover" />
+                <Image src="/photos/volunteers-with-residents.jpg" alt="DeepRoots volunteers with elder-care residents in Amravati" fill sizes="160px" className="object-cover" />
               </div>
             </div>
 
@@ -71,10 +71,10 @@ export function ImpactSection() {
 
             <div className="hidden gap-4 sm:grid grid-cols-2 lg:block">
               <div className="impact-photo impact-photo-three">
-                <Image src="https://images.unsplash.com/photo-1511895426328-dc8714191300?q=80&w=1200&auto=format&fit=crop" alt="Mother and child" fill className="object-cover" />
+                <Image src="/photos/team-with-banner.jpg" alt="The DeepRoots team with residents and the foundation banner" fill sizes="160px" className="object-cover" />
               </div>
               <div className="impact-photo impact-photo-four">
-                <Image src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200&auto=format&fit=crop" alt="Rural agricultural fields" fill className="object-cover" />
+                <Image src="/photos/volunteers-selfie-with-residents.jpg" alt="A volunteer's selfie with elder-care residents after a meal" fill sizes="160px" className="object-cover" />
               </div>
             </div>
           </div>

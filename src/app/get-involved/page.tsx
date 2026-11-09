@@ -20,7 +20,7 @@ export default function GetInvolvedPage() {
               </article>
               <article id="partner" className="border-t-4 border-primary-green bg-white p-8 shadow-sm">
                 <h2 className="font-editorial text-3xl font-bold text-primary-green">Partner or Volunteer</h2>
-                <p className="mt-4 leading-relaxed text-muted">Bring your skills, your company, or simply your time. We're building relationships with companies and individuals who want to be part of something real, not just write a cheque.</p>
+                <p className="mt-4 leading-relaxed text-muted">Bring your skills, your company, or simply your time. We’re building relationships with companies and individuals who want to be part of something real, not just write a cheque.</p>
                 <Button href="/contact" variant="outline" className="mt-8">Start a Conversation</Button>
               </article>
               <article id="volunteer" className="border-t-4 border-primary-brown bg-white p-8 shadow-sm">

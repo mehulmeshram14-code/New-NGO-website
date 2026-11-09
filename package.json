@@ -1,38 +1,44 @@
 {
-  "name": "deeproot-foundation",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "deeproots-foundation",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "test": "tsx scripts/test-razorpay-suite.ts"
+    "lint": "eslint",
+    "test": "tsx scripts/test-payments.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
+    "@svg-maps/india": "^2.0.0",
     "canvas-confetti": "^1.9.4",
-    "framer-motion": "^14.6.0",
-    "lucide-react": "^1.61.0",
-    "mongoose": "^9.11.4",
-    "next": "^16.4.3",
+    "clsx": "^2.1.1",
+    "framer-motion": "^13.4.2",
+    "lucide-react": "^1.47.0",
+    "mongoose": "^9.10.4",
+    "next": "^16.4.5",
     "razorpay": "^2.9.8",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "svgmap-maharashtra": "^0.0.3",
+    "tailwind-merge": "^3.7.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4",
     "@types/canvas-confetti": "^1.9.0",
-    "@types/node": "^26.6.5",
-    "@types/react": "^18.3.31",
-    "@types/react-dom": "^18.3.7",
-    "autoprefixer": "^10.6.1",
-    "postcss": "^8.5.31",
-    "tailwindcss": "^3.4.14",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "^16.4.5",
+    "tailwindcss": "^4",
     "tsx": "^4.23.15",
-    "typescript": "^7.0.2"
-  }
+    "typescript": "^5"
+  },
+  "description": "This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

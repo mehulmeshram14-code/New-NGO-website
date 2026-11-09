@@ -42,11 +42,17 @@ export function Navbar() {
             <div key={link.name} className="relative group h-full flex items-center" onMouseEnter={() => setActiveDropdown(link.name)} onMouseLeave={() => setActiveDropdown(null)}>
               {link.subLinks ? (
                 <>
-                  <Link href={link.href} className="text-sm font-semibold text-charcoal hover:text-primary-green transition-colors flex items-center gap-1 py-4">
+                  <Link
+                    href={link.href}
+                    aria-haspopup="true"
+                    aria-expanded={activeDropdown === link.name}
+                    className="text-sm font-semibold text-charcoal hover:text-primary-green transition-colors flex items-center gap-1 py-4"
+                  >
                     {link.name}
-                    <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === link.name ? 'rotate-180' : ''}`} />
+                    <ChevronDown size={14} className={`transition-transform duration-200 group-focus-within:rotate-180 ${activeDropdown === link.name ? 'rotate-180' : ''}`} />
                   </Link>
-                  <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-2 w-48 transition-all duration-300 ${activeDropdown === link.name ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+                  {/* group-focus-within keeps the submenu open for keyboard users tabbing through it. */}
+                  <div className={`absolute top-full left-1/2 -translate-x-1/2 pt-2 w-48 transition-all duration-300 group-focus-within:opacity-100 group-focus-within:visible ${activeDropdown === link.name ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
                     <div className="bg-white shadow-xl border border-gray-100 flex flex-col rounded-xl overflow-hidden">
                       {link.subLinks.map((subLink) => (
                         <Link key={subLink.name} href={subLink.href} className="px-5 py-3 text-sm font-medium text-gray-700 hover:bg-green-50 hover:text-primary-green transition-colors">

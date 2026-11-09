@@ -31,7 +31,7 @@ export function ProjectCard({ title, category, description, image, delay = 0 }: 
         />
       </div>
       <div className="p-8 flex flex-col flex-grow">
-        <span className="text-accent-terracotta text-sm font-bold tracking-widest uppercase mb-2">
+        <span className="text-accent-gold text-sm font-bold tracking-widest uppercase mb-2">
           {category}
         </span>
         <h3 className="font-editorial text-2xl font-bold text-primary-green mb-4">
@@ -40,7 +40,7 @@ export function ProjectCard({ title, category, description, image, delay = 0 }: 
         <p className="text-muted mb-6 flex-grow">
           {description}
         </p>
-        <Button variant="ghost" className="self-start px-0 hover:bg-transparent hover:text-accent-terracotta">
+        <Button variant="ghost" className="self-start px-0 hover:bg-transparent hover:text-accent-gold">
           Learn More &rarr;
         </Button>
       </div>

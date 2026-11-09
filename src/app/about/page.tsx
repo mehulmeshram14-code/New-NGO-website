@@ -40,7 +40,7 @@ export default function AboutPage() {
 
             <section>
               <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-accent-gold">Core Values</p>
-              <h2 className="font-editorial text-4xl font-bold text-primary-green">We're young. We won't pretend otherwise.</h2>
+              <h2 className="font-editorial text-4xl font-bold text-primary-green">We’re young. We won’t pretend otherwise.</h2>
               <div className="mt-10 grid gap-5 md:grid-cols-2">
                 {landingContent.values.map((value) => (
                   <article key={value.title} className="border-t-2 border-primary-green/20 pt-5">
@@ -49,7 +49,7 @@ export default function AboutPage() {
                   </article>
                 ))}
               </div>
-              <p className="mt-8 text-lg italic text-muted">We know we don't have decades of track record yet. What we can offer instead is honesty. You'll always be able to see exactly where your support goes.</p>
+              <p className="mt-8 text-lg italic text-muted">We know we don’t have decades of track record yet. What we can offer instead is honesty. You’ll always be able to see exactly where your support goes.</p>
             </section>
 
             {/* Removed inline team section, will be added outside the max-w-5xl container */}

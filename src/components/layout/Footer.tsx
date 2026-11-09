@@ -47,13 +47,31 @@ export function Footer() {
           <div>
             <h4 className="font-bold mb-6 text-accent-gold uppercase tracking-wider text-sm">Connect</h4>
             <ul className="space-y-4">
-              <li className="text-ivory/80">{siteConfig.contact.email}</li>
-              <li className="text-ivory/80">{siteConfig.contact.phone}</li>
+              <li>
+                <a href={`mailto:${siteConfig.contact.email}`} className="text-ivory/80 hover:text-white transition-colors break-all">
+                  {siteConfig.contact.email}
+                </a>
+              </li>
+              <li>
+                <a href={siteConfig.contact.phoneHref} className="text-ivory/80 hover:text-white transition-colors">
+                  {siteConfig.contact.phone}
+                </a>
+              </li>
               <li className="text-ivory/80">{siteConfig.contact.address}</li>
             </ul>
             <div className="flex gap-4 mt-6">
-              <a href={siteConfig.social.instagram} className="text-ivory hover:text-accent-terracotta transition-colors" target="_blank" rel="noopener noreferrer">Instagram</a>
-              <a href={siteConfig.social.linkedin} className="text-ivory hover:text-accent-terracotta transition-colors" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              {siteConfig.social.map((profile) => (
+                <a
+                  key={profile.name}
+                  href={profile.href}
+                  className="text-ivory hover:text-accent-gold transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${profile.name} ${profile.handle}`}
+                >
+                  {profile.name}
+                </a>
+              ))}
             </div>
           </div>
         </div>
@@ -62,8 +80,8 @@ export function Footer() {
           <p>&copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-white">Terms</Link>
-            <Link href="/transparency" className="hover:text-white">Donation Policy</Link>
+            <Link href="/donation-policy" className="hover:text-white">Donation Policy</Link>
+            <Link href="/transparency" className="hover:text-white">Transparency</Link>
           </div>
         </div>
       </div>
