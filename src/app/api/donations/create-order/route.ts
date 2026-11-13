@@ -99,10 +99,12 @@ export async function POST(req: NextRequest) {
       if (isPaymentSimulationAllowed()) {
         providerOrderId = `order_sim_${crypto.randomBytes(8).toString("hex")}`;
       } else {
+        // Operator detail goes to the server log only; donors get a friendly message.
+        console.error("Razorpay is not configured: set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET.");
         return NextResponse.json(
           {
             success: false,
-            error: "Live payment gateway is not configured. Please enter your RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET in .env.local to accept donations.",
+            error: "Online donations are temporarily unavailable. Please try again later, or contact us to donate.",
           },
           { status: 503 }
         );

@@ -11,4 +11,5 @@ if [ ! -f .env.production.local ]; then
 fi
 sudo -u deeproots -H bash -c "git pull --ff-only && npm ci --no-audit --no-fund --loglevel=error && NEXT_TELEMETRY_DISABLED=1 npm run build"
 systemctl restart deeproots
-echo "Deployed $(git rev-parse --short HEAD)"
+# Run git as the repo owner: as root, git refuses ("dubious ownership").
+echo "Deployed $(sudo -u deeproots git rev-parse --short HEAD)"
