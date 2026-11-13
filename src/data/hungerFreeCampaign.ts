@@ -1,3 +1,6 @@
+import { COST_PER_MEAL, formatINR, MAX_DONATION, MIN_DONATION } from "@/data/donation";
+import { siteConfig } from "@/data/siteConfig";
+
 export const HUNGER_FREE_PATH = "/campaign/hunger-free";
 const IMAGE_BASE = "/campaign/hunger-free";
 
@@ -9,33 +12,68 @@ export interface Beneficiary {
   label: string;
 }
 
+export interface FaqItem {
+  question: string;
+  answer: string;
+  link?: { href: string; label: string };
+}
+
+/**
+ * Copy for /campaign/hunger-free. The campaign has just started, so the page makes
+ * no achievement claims (no meals-served counters or targets); every number on it
+ * is derived from the ₹50 cost of one meal.
+ */
 export const hungerFreeCampaign = {
   // Sent to Razorpay / stored on the donation record.
   campaignName: "Hunger Free - Vidarbha",
+  purpose: "Hunger relief in Vidarbha",
 
   hero: {
     eyebrow: "Hunger Free Vidarbha",
-    titleLead: "No one should",
+    titleLead: "No one in Vidarbha should",
     titleAccent: "sleep hungry.",
-    description:
-      "Helping underserved communities across Vidarbha access food, nutrition, education, and opportunities for a better future.",
+    description: `We've just begun. Our volunteers cook and serve fresh meals to elders and families in Amravati who often go without. Every ${formatINR(COST_PER_MEAL)} you give is one warm meal.`,
     image: `${IMAGE_BASE}/hero.jpg`,
-    imageAlt: "DeepRoots Foundation volunteers serving hot meals to community members in Vidarbha",
+    imageAlt: "A DeepRoots volunteer serving a fresh meal to elders seated on the floor",
+    imageCaption: `Every ${formatINR(COST_PER_MEAL)} is a warm meal tonight.`,
   },
 
-  donation: {
-    purpose: "Hunger relief in Vidarbha",
-    eyebrow: "Sponsor a meal",
-    title: "Your contribution can become someone's next meal.",
-    description:
-      "Choose an amount, pay securely through Razorpay, and get an on-screen receipt you can print or save.",
+  tagline: {
+    line: "Ek ghaas, ek aas.",
+    translation: "One morsel, one hope.",
+  },
+
+  about: [
+    {
+      title: "What is Hunger Free Vidarbha?",
+      text: "Hunger Free Vidarbha is DeepRoots Foundation's meal seva campaign, and it is where our work begins: volunteers preparing and serving fresh, nutritious meals, starting with elders and families in Amravati. As support grows, we will take meal seva to more communities across Vidarbha.",
+      image: "/photos/volunteers-with-residents.jpg",
+      imageAlt: "DeepRoots volunteers standing with elders after a meal",
+    },
+    {
+      title: "Why a meal matters",
+      text: "Vidarbha grows food for the whole country, yet many of its families still go to bed hungry, and in its tribal districts nearly a third of young children are malnourished. A warm meal is the most direct help we can give, and the first step towards the education and livelihood work we plan next.",
+      image: "/photos/volunteer-serving-meal.jpg",
+      imageAlt: "A volunteer pouring dal for an elder eating from a steel thali",
+    },
+  ],
+
+  levels: {
+    eyebrow: "Choose your level",
+    title: "Every rupee is counted in meals",
+    description: `${formatINR(COST_PER_MEAL)} cooks and serves one fresh meal. Pick a level and we'll set it in the donation form.`,
+  },
+
+  sponsor: {
+    eyebrow: "Give big",
+    title: "Sponsor meal seva",
+    description: "For families, businesses and CSR teams who want to give at scale.",
   },
 
   beneficiaries: {
     eyebrow: "From the field",
-    title: "Every meal reaches a real person.",
-    description:
-      "Photographs from our community kitchen and rural food distribution drives across Vidarbha.",
+    title: "The people you'll be feeding.",
+    description: "Elders from our first meal seva in Amravati.",
     rowOne: [
       { id: "bp-3", src: `${IMAGE_BASE}/beneficiaries/image3.jpeg`, name: "Saraswati Shantaram Maske", age: 80, label: "Elder Daily Food Seva" },
       { id: "bp-drive", src: `${IMAGE_BASE}/beneficiaries/image-drive.jpeg`, label: "Meal Seva Beneficiary" },
@@ -58,35 +96,46 @@ export const hungerFreeCampaign = {
     ] satisfies Beneficiary[],
   },
 
-  trust: {
-    eyebrow: "Transparency & governance",
-    title: "Your trust makes our mission possible.",
-    description:
-      "DeepRoots Foundation operates with clear governance, accountability, and statutory compliance across all of its work.",
-    items: [
-      {
-        label: "Donation receipts",
-        title: "A digital receipt for every contribution",
-        description: "An on-screen receipt with a unique reference ID, ready to print or save.",
-      },
-      {
-        label: "Fund utilisation",
-        title: "Contributions go to field nutrition work",
-        description: "Public contributions directly sustain our food and nutrition initiatives.",
-      },
-      {
-        label: "Registered office",
-        title: "Amravati, Vidarbha, Maharashtra",
-        description: "24/1/23, Gauri Shankar Nagar, Rukhmini Nagar, Amravati - 444606.",
-      },
-    ],
-  },
+  faq: [
+    {
+      question: "Will I get an 80G tax receipt?",
+      answer:
+        "DeepRoots Foundation has applied for Section 80G approval. Until it is granted, we issue a donation acknowledgement with a unique reference, but it can't be used to claim an 80G deduction. We'll update this page once approval comes through.",
+    },
+    {
+      question: `How does ${formatINR(COST_PER_MEAL)} help?`,
+      answer: `${formatINR(COST_PER_MEAL)} covers one freshly cooked, nutritious meal, served by our volunteers. ${formatINR(1000)} serves 20 meals.`,
+    },
+    {
+      question: "What is Hunger Free Vidarbha?",
+      answer:
+        "It is DeepRoots Foundation's meal seva campaign. We've just started, serving fresh meals to elders and families in Amravati, and we'll grow across Vidarbha as support grows.",
+    },
+    {
+      question: "Can I give a different amount?",
+      answer: `Yes. Enter any amount from ${formatINR(MIN_DONATION)} (one meal) under "Other amount". For gifts above ${formatINR(MAX_DONATION)}, please contact us directly.`,
+    },
+    {
+      question: "Is the payment secure?",
+      answer:
+        "Payments are processed by Razorpay over an encrypted connection, by UPI, card or net banking. We never see or store your card, UPI or bank details, and every payment is verified on our server before it is recorded.",
+    },
+    {
+      question: "Can I get a refund?",
+      answer:
+        "Donations are generally non-refundable once used for meals. If you made a duplicate or mistaken payment, tell us within 7 days and we'll refund it to the original payment method.",
+      link: { href: "/donation-policy", label: "Read the donation & refund policy" },
+    },
+    {
+      question: "Who do I contact for help?",
+      answer: `Call us on ${siteConfig.contact.phone} or email ${siteConfig.contact.email}. Please keep your donation reference handy.`,
+    },
+  ] satisfies FaqItem[],
 
   finalCta: {
-    eyebrow: "Join the cause",
-    titleLead: "Be the reason",
-    titleAccent: "someone finds hope.",
-    description:
-      "Your support helps DeepRoots Foundation work towards a future where food security, education, and dignity are within everyone's reach.",
+    title: "Feed someone tonight.",
+    description: `${formatINR(COST_PER_MEAL)} is a warm meal. Start with one, or feed a whole lane.`,
+    image: "/photos/team-with-banner.jpg",
+    imageAlt: "The DeepRoots team with elders, holding the foundation's banner",
   },
 };

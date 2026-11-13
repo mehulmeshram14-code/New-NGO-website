@@ -22,7 +22,7 @@ const samarkan = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://deeprootsfoundation.org"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://thedeeprootsfoundation.org"),
   title: "DeepRoots Foundation | Food Security & Community Upliftment in Vidarbha",
   description: "DeepRoots Foundation works to strengthen food security, dignity, education and community opportunities for underserved communities in Vidarbha, Maharashtra.",
 };

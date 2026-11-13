@@ -12,7 +12,7 @@ type Status = "idle" | "sending" | "sent" | "error";
 const EMPTY = { name: "", email: "", subject: "", message: "", website: "" };
 
 const fieldClass =
-  "w-full rounded-xl border border-sand bg-ivory px-4 py-3 text-charcoal placeholder:text-muted/70 focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition";
+  "w-full rounded-xl border border-sand bg-ivory px-4 py-3 text-charcoal placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition";
 const labelClass = "block text-sm font-bold text-charcoal mb-2";
 
 export function ContactForm() {
@@ -131,7 +131,7 @@ export function ContactForm() {
           value={values.subject}
           onChange={update("subject")}
           aria-invalid={invalid("subject") || undefined}
-          className={cn(fieldClass, "appearance-none", !values.subject && "text-muted/70", invalid("subject") && "ring-2 ring-red-400")}
+          className={cn(fieldClass, "appearance-none", !values.subject && "text-muted", invalid("subject") && "ring-2 ring-red-400")}
         >
           <option value="" disabled>
             Choose a subject

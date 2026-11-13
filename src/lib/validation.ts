@@ -1,13 +1,21 @@
 import { z } from "zod";
 import { CONTACT_SUBJECTS } from "@/data/contactForm";
+import { formatINR, MAX_DONATION, MIN_DONATION } from "@/data/donation";
+
+/** Strips spaces, dashes and brackets, then expects 10–13 digits with an optional leading "+". */
+export const PhoneSchema = z
+  .string({ message: "Please enter your phone number." })
+  .trim()
+  .transform((v) => v.replace(/[\s\-()]/g, ""))
+  .pipe(z.string().regex(/^\+?\d{10,13}$/, "Please enter a valid phone number."));
 
 export const CreateDonationOrderSchema = z.object({
+  // Name and phone are required so every donation has a contact for its receipt.
   donorName: z
-    .string()
+    .string({ message: "Please enter your name." })
     .trim()
-    .max(100, "Name must not exceed 100 characters")
-    .optional()
-    .default("Generous Supporter"),
+    .min(2, "Please enter your name.")
+    .max(100, "Name must not exceed 100 characters"),
   donorEmail: z
     .string()
     .trim()
@@ -15,12 +23,7 @@ export const CreateDonationOrderSchema = z.object({
     .optional()
     .or(z.literal(""))
     .default(""),
-  donorPhone: z
-    .string()
-    .trim()
-    .regex(/^[0-9+ -]{10,15}$/, "Please enter a valid phone number (10-15 digits)")
-    .optional()
-    .or(z.literal("")),
+  donorPhone: PhoneSchema,
   donorPan: z
     .string()
     .trim()
@@ -31,8 +34,8 @@ export const CreateDonationOrderSchema = z.object({
     .number()
     .int("Donation amount must be an integer in Rupees")
     .positive("Donation amount must be greater than zero")
-    .min(10, "Minimum donation amount is ₹10")
-    .max(500000, "For donations exceeding ₹5,00,000, please contact our team directly"),
+    .min(MIN_DONATION, `Minimum donation amount is ${formatINR(MIN_DONATION)} (one meal).`)
+    .max(MAX_DONATION, `For donations above ${formatINR(MAX_DONATION)}, please contact our team directly.`),
   frequency: z.enum(["one_time", "monthly"]).default("one_time"),
   campaign: z.string().default("First Meal - Vidarbha"),
   isTaxReceiptRequested: z.boolean().default(false),

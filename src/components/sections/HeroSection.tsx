@@ -27,7 +27,7 @@ export function HeroSection() {
           priority
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/65" />
       </motion.div>
 
       {/* Content */}
@@ -36,7 +36,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-accent-gold drop-shadow-sm font-bold tracking-widest uppercase text-sm md:text-base mb-6"
+          className="text-accent-gold-light drop-shadow-sm font-bold tracking-widest uppercase text-sm md:text-base mb-6"
         >
           {landingContent.opening.eyebrow}
         </motion.span>
@@ -62,7 +62,7 @@ export function HeroSection() {
           transition={{ duration: 0.6, delay: 1 }}
           className="flex flex-col sm:flex-row gap-4"
         >
-          <Button href="/donate" variant="secondary" size="lg" className="bg-accent-gold text-white hover:bg-primary-green transition-colors duration-300">
+          <Button href="/donate" variant="secondary" size="lg" className="bg-accent-gold-deep text-white hover:bg-primary-green transition-colors duration-300">
             {landingContent.opening.cta}
           </Button>
           <Button href="/work" variant="outline" size="lg" className="border-ivory text-ivory hover:bg-ivory hover:text-charcoal transition-colors duration-300">
@@ -76,9 +76,9 @@ export function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-sand/60"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-sand/90"
       >
-          <span className="text-xs uppercase tracking-widest text-sand/70">Scroll</span>
+          <span className="text-xs uppercase tracking-widest text-sand/90">Scroll</span>
         <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 1.5 }}

@@ -23,7 +23,7 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
     
     const variants = {
       primary: "bg-primary-green text-white hover:bg-primary-green/90 focus:ring-primary-green",
-      secondary: "bg-accent-gold text-white hover:bg-accent-gold/90 focus:ring-accent-gold",
+      secondary: "bg-accent-gold-deep text-white hover:bg-primary-brown focus:ring-accent-gold-deep",
       outline: "border-2 border-primary-green text-primary-green hover:bg-primary-green hover:text-white focus:ring-primary-green",
       ghost: "text-primary-green hover:bg-primary-green/10 focus:ring-primary-green",
     };

@@ -1,53 +1,34 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Image from "next/image";
 import { Heart } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { useDonation } from "@/components/donation/DonationProvider";
 import { hungerFreeCampaign } from "@/data/hungerFreeCampaign";
 
 const { finalCta } = hungerFreeCampaign;
 
 export function FinalCtaSection() {
+  const { startDonation } = useDonation();
+
   return (
-    <section className="py-24 md:py-32 bg-ivory">
-      <div className="container mx-auto px-6 md:px-12">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7 }}
-          className="relative overflow-hidden rounded-3xl bg-primary-green px-6 py-16 md:px-16 md:py-20 text-center"
-        >
-          <div className="absolute -right-24 -top-24 w-80 h-80 rounded-full bg-accent-gold/20 blur-3xl pointer-events-none" />
-          <div className="absolute -left-24 -bottom-24 w-80 h-80 rounded-full bg-primary-brown/40 blur-3xl pointer-events-none" />
-
-          <div className="relative max-w-2xl mx-auto">
-            <span className="text-accent-gold font-bold tracking-widest uppercase text-sm">{finalCta.eyebrow}</span>
-            <h2 className="mt-4 text-4xl md:text-6xl font-serif !text-white leading-tight">
-              {finalCta.titleLead} <br />
-              <span className="italic !text-accent-gold">{finalCta.titleAccent}</span>
-            </h2>
-            <p className="mt-6 text-white/85 text-lg leading-relaxed">{finalCta.description}</p>
-
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                href="#donate"
-                size="lg"
-                className="gap-2 bg-accent-gold text-white hover:bg-white hover:text-primary-green focus:ring-accent-gold transition-colors duration-300"
-              >
-                <Heart className="w-5 h-5 fill-current" /> Donate Now
-              </Button>
-              <Button
-                href="#beneficiaries"
-                variant="outline"
-                size="lg"
-                className="border-ivory text-ivory hover:bg-ivory hover:text-charcoal transition-colors duration-300"
-              >
-                View Beneficiaries
-              </Button>
-            </div>
+    <section className="bg-ivory py-16 md:py-24">
+      <div className="container mx-auto px-4 sm:px-6 md:px-12">
+        <div className="grid overflow-hidden rounded-3xl bg-primary-green-deep md:grid-cols-2">
+          <div className="relative min-h-64">
+            <Image src={finalCta.image} alt={finalCta.imageAlt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
           </div>
-        </motion.div>
+          <div className="flex flex-col items-start justify-center gap-5 p-8 md:p-12">
+            <h2 className="text-4xl leading-tight text-white md:text-5xl">{finalCta.title}</h2>
+            <p className="text-lg text-ivory/85">{finalCta.description}</p>
+            <button
+              type="button"
+              onClick={() => startDonation()}
+              className="inline-flex items-center gap-2 rounded-full bg-accent-gold-deep px-7 py-3.5 font-bold text-white transition-colors hover:bg-white hover:text-primary-green-deep focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold-light focus-visible:ring-offset-2 focus-visible:ring-offset-primary-green-deep"
+            >
+              <Heart className="h-4 w-4 fill-current" /> Donate now
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );

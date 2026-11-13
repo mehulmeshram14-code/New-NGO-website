@@ -15,7 +15,7 @@ export default function WorkPage() {
             {landingContent.phases.map((phase, index) => (
               <article key={phase.title} id={`phase-${index + 1}`} className="grid gap-8 border-t-2 border-primary-green/20 pt-8 md:grid-cols-[0.35fr_1fr]">
                 <div>
-                  <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent-gold">{phase.phase}</p>
+                  <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent-gold-deep">{phase.phase}</p>
                   <h2 className="mt-3 font-editorial text-3xl font-bold text-primary-green">{phase.title}</h2>
                 </div>
                 <div className="space-y-4 text-lg leading-relaxed text-muted">
@@ -26,7 +26,7 @@ export default function WorkPage() {
             ))}
 
             <section className="mt-16 bg-sand p-8 md:p-12">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent-gold">Community Upliftment</p>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent-gold-deep">Community Upliftment</p>
               <h2 className="mt-4 font-editorial text-4xl font-bold text-primary-green">{landingContent.community.title}</h2>
               <p className="mt-6 text-lg leading-relaxed text-muted">{landingContent.community.text}</p>
               <p className="mt-5 text-lg leading-relaxed text-primary-brown">{landingContent.community.closing}</p>

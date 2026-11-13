@@ -45,27 +45,8 @@ export async function POST(req: NextRequest) {
 
     const data = parsed.data;
 
-    // 3. Amount Validation and Integer Arithmetic Conversion to Paise
-    if (!Number.isFinite(data.amount) || data.amount <= 0) {
-      return NextResponse.json(
-        { success: false, error: "Donation amount must be a finite, positive number." },
-        { status: 400 }
-      );
-    }
-
-    const MIN_AMOUNT_INR = 10;
-    const MAX_AMOUNT_INR = 500000;
-
-    if (data.amount < MIN_AMOUNT_INR || data.amount > MAX_AMOUNT_INR) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: `Donation amount must be between ₹${MIN_AMOUNT_INR} and ₹${MAX_AMOUNT_INR.toLocaleString("en-IN")}.`,
-        },
-        { status: 400 }
-      );
-    }
-
+    // 3. Amount limits (MIN_DONATION..MAX_DONATION, whole rupees) are enforced by
+    // CreateDonationOrderSchema. Convert to paise with integer arithmetic.
     const amountPaise = Math.round(data.amount * 100);
 
     // 4. Generate Unique Internal Donation Reference
@@ -91,9 +72,9 @@ export async function POST(req: NextRequest) {
           receipt: donationReference,
           notes: {
             donationReference,
-            donorName: data.donorName || "Generous Supporter",
+            donorName: data.donorName,
             donorEmail: data.donorEmail || "",
-            donorPhone: data.donorPhone || "",
+            donorPhone: data.donorPhone,
             campaign: data.campaign,
           },
         });

@@ -31,7 +31,7 @@ export default function GetInvolvedPage() {
             </div>
 
             <section className="mt-20 border-l-4 border-accent-gold pl-6 md:pl-10">
-              <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent-gold">One Last Thing</p>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent-gold-deep">One Last Thing</p>
               <h2 className="mt-3 font-editorial text-4xl font-bold text-primary-green">{landingContent.closing.title}</h2>
               <p className="mt-6 text-lg leading-relaxed text-muted">{landingContent.closing.text}</p>
               <p className="mt-5 text-lg leading-relaxed text-primary-brown">{landingContent.closing.invitation}</p>

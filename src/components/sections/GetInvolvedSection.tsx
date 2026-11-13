@@ -11,7 +11,7 @@ const options = [
     button: "Donate Now",
     href: "/donate",
     variant: "secondary" as const,
-    btnClass: "bg-accent-gold text-white hover:bg-primary-green hover:text-white"
+    btnClass: "bg-accent-gold-deep text-white hover:bg-primary-green hover:text-white"
   },
   {
     title: "VOLUNTEER",

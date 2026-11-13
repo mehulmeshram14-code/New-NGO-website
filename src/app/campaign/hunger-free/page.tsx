@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { DonationProvider } from "@/components/donation/DonationProvider";
+import { StickyDonateBar } from "@/components/donation/StickyDonateBar";
 import { CampaignHero } from "@/components/campaign/hunger-free/CampaignHero";
-import { DonationSection } from "@/components/sections/DonationSection";
+import { TaglineBand } from "@/components/campaign/hunger-free/TaglineBand";
+import { CampaignTrustStrip } from "@/components/campaign/hunger-free/CampaignTrustStrip";
+import { AboutCampaign } from "@/components/campaign/hunger-free/AboutCampaign";
 import { BeneficiariesSection } from "@/components/campaign/hunger-free/BeneficiariesSection";
-import { TrustSection } from "@/components/campaign/hunger-free/TrustSection";
+import { DonationLevels } from "@/components/campaign/hunger-free/DonationLevels";
+import { Sponsorships } from "@/components/campaign/hunger-free/Sponsorships";
+import { CampaignFaq } from "@/components/campaign/hunger-free/CampaignFaq";
 import { FinalCtaSection } from "@/components/campaign/hunger-free/FinalCtaSection";
 import { HUNGER_FREE_PATH, hungerFreeCampaign } from "@/data/hungerFreeCampaign";
 import { siteConfig } from "@/data/siteConfig";
@@ -57,14 +63,24 @@ export default function HungerFreeCampaignPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
-      <main className="flex-1">
-        <CampaignHero />
-        <DonationSection campaignName={hungerFreeCampaign.campaignName} {...hungerFreeCampaign.donation} />
-        <BeneficiariesSection />
-        <TrustSection />
-        <FinalCtaSection />
-      </main>
+      {/* Shares the chosen amount between the donation card, level cards, sponsorships and sticky bar. */}
+      <DonationProvider>
+        <main className="flex-1">
+          <CampaignHero />
+          <TaglineBand />
+          <CampaignTrustStrip />
+          <AboutCampaign />
+          <BeneficiariesSection />
+          <DonationLevels />
+          <Sponsorships />
+          <CampaignFaq />
+          <FinalCtaSection />
+        </main>
+        <StickyDonateBar />
+      </DonationProvider>
       <Footer />
+      {/* Keeps the end of the footer clear of the mobile sticky donate bar. */}
+      <div aria-hidden="true" className="h-20 bg-primary-green-deep lg:hidden" />
     </>
   );
 }

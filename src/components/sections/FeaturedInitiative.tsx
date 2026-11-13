@@ -6,13 +6,13 @@ import { Button } from "../ui/Button";
 
 export function FeaturedInitiative() {
   return (
-    <section className="bg-primary-green text-ivory py-24 md:py-32">
+    <section className="bg-primary-green-deep text-ivory py-24 md:py-32">
       <div className="container mx-auto px-6 md:px-12 text-center flex flex-col items-center">
         <motion.span 
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-accent-gold font-bold tracking-widest uppercase text-sm mb-6"
+          className="text-accent-gold-light font-bold tracking-widest uppercase text-sm mb-6"
         >
           Featured Initiative: First Meal
         </motion.span>

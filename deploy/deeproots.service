@@ -1,0 +1,16 @@
+[Unit]
+Description=DeepRoots Foundation Next.js site
+After=network.target
+
+[Service]
+Type=simple
+User=deeproots
+WorkingDirectory=/var/www/deeproots
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+ExecStart=/usr/bin/npx next start -H 127.0.0.1 -p 3000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

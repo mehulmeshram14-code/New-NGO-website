@@ -13,19 +13,31 @@ const cached: MongooseCache = global.mongooseCache ?? { conn: null, promise: nul
 global.mongooseCache = cached;
 
 /**
+ * True when production may keep donations in memory instead of MongoDB.
+ * Must be opted into explicitly with ALLOW_MEMORY_STORE=true: records are lost on every
+ * restart/deploy and are not shared between processes (fine for one process on one VPS;
+ * Razorpay's dashboard remains the permanent record of payments).
+ */
+export function isMemoryStoreAllowed(): boolean {
+  return process.env.NODE_ENV !== "production" || process.env.ALLOW_MEMORY_STORE === "true";
+}
+
+/**
  * Returns a MongoDB connection, or `null` when the in-memory store should be used.
  *
- * The in-memory store is ONLY allowed in development/test when MONGODB_URI is unset.
- * It is wiped on restart and not shared between server instances, so in production
- * a missing URI or a failed connection throws instead of silently losing donations.
- * Callers let the error surface as a 5xx, which also makes Razorpay retry webhooks.
+ * Without MONGODB_URI, the in-memory store is used in development, and in production only
+ * when ALLOW_MEMORY_STORE=true; otherwise this throws rather than silently losing donations.
+ * A configured database that fails to connect always throws. Callers let the error surface
+ * as a 5xx, which also makes Razorpay retry webhooks.
  */
 export async function connectToDatabase(): Promise<typeof mongoose | null> {
   const uri = process.env.MONGODB_URI?.trim();
 
   if (!uri) {
-    if (process.env.NODE_ENV === "production") {
-      throw new Error("MONGODB_URI is not configured. Refusing to store donations in memory in production.");
+    if (!isMemoryStoreAllowed()) {
+      throw new Error(
+        "MONGODB_URI is not configured. Set it, or set ALLOW_MEMORY_STORE=true to keep donations in memory."
+      );
     }
     return null;
   }

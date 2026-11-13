@@ -1,15 +1,29 @@
 @import "tailwindcss";
 
 @theme inline {
+  /*
+   * Contrast rules (WCAG AA: 4.5:1 body text, 3:1 large text / UI):
+   * - primary-green: buttons, icons, headings on light. White text on it = 5.3:1.
+   * - primary-green-deep: green SURFACES that carry text (footer, CTA panels).
+   *   Ivory 11:1, ivory/75 7:1, accent-gold-light 7:1; plain primary-green fails here.
+   * - accent-gold: decoration only (borders, dots, glows). It fails as text on every
+   *   light or green background (~2.2:1).
+   * - accent-gold-deep: gold text on ivory/white/sand, and gold buttons/badges with white text.
+   * - accent-gold-light: gold text on primary-green-deep or dark photo overlays.
+   */
   --color-primary-green: #597349;
+  --color-primary-green-deep: #2C3B26;
   --color-primary-brown: #4A311D;
   --color-accent-gold: #E89230;
-  
+  --color-accent-gold-deep: #935610;
+  --color-accent-gold-light: #F3BC74;
+
   --color-ivory: #F9F6EF;
   --color-sand: #EDE4D5;
-  
+
   --color-charcoal: #1E1E1E;
-  --color-muted: #6B6B61;
+  /* Darkened from #6B6B61 so body copy also passes on sand (5.1:1). */
+  --color-muted: #5F5F56;
   
   --font-sans: var(--font-montserrat), sans-serif;
   --font-serif: var(--font-dm-serif-display), serif;
@@ -21,16 +35,22 @@
   [id] {
     scroll-margin-top: 7rem;
   }
+
+  /*
+   * Must stay inside @layer base: in Tailwind v4, unlayered CSS beats utility classes,
+   * which previously forced every heading to charcoal (black text on the dark footer).
+   * No colour here on purpose: headings inherit it, so they are charcoal on light
+   * pages (from body) and ivory/white inside dark sections. Utility classes override.
+   */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-bold tracking-tight;
+  }
 }
 
 body {
   @apply bg-ivory text-charcoal font-sans;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  @apply font-serif font-bold tracking-tight text-charcoal;
 }
 
 .font-editorial {
@@ -220,7 +240,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .vidarbha-label {
-  fill: var(--color-accent-gold);
+  fill: var(--color-accent-gold-light);
   font-family: var(--font-montserrat), sans-serif;
   font-size: 14px;
   font-weight: 800;

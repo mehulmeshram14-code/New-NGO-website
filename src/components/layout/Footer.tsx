@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/data/siteConfig";
+import { EmailText } from "@/components/ui/EmailText";
 
 const footerLinks = [
   { name: "About", href: "/about" },
@@ -14,7 +15,7 @@ const footerLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-primary-green text-ivory py-16">
+    <footer className="bg-primary-green-deep text-ivory py-16">
       <div className="container mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           
@@ -31,7 +32,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold mb-6 text-accent-gold uppercase tracking-wider text-sm">Navigation</h4>
+            <h4 className="font-sans font-bold mb-6 text-accent-gold-light uppercase tracking-wider text-sm">Navigation</h4>
             <ul className="grid grid-cols-2 gap-4">
               {footerLinks.map((link) => (
                 <li key={link.name}>
@@ -45,11 +46,11 @@ export function Footer() {
 
           {/* Contact & Socials */}
           <div>
-            <h4 className="font-bold mb-6 text-accent-gold uppercase tracking-wider text-sm">Connect</h4>
+            <h4 className="font-sans font-bold mb-6 text-accent-gold-light uppercase tracking-wider text-sm">Connect</h4>
             <ul className="space-y-4">
               <li>
-                <a href={`mailto:${siteConfig.contact.email}`} className="text-ivory/80 hover:text-white transition-colors break-all">
-                  {siteConfig.contact.email}
+                <a href={`mailto:${siteConfig.contact.email}`} className="text-ivory/80 hover:text-white transition-colors">
+                  <EmailText email={siteConfig.contact.email} />
                 </a>
               </li>
               <li>
@@ -64,7 +65,7 @@ export function Footer() {
                 <a
                   key={profile.name}
                   href={profile.href}
-                  className="text-ivory hover:text-accent-gold transition-colors"
+                  className="text-ivory hover:text-accent-gold-light transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${profile.name} ${profile.handle}`}
@@ -76,7 +77,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-ivory/20 mt-16 pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-ivory/60 gap-4">
+        <div className="border-t border-ivory/20 mt-16 pt-8 flex flex-col md:flex-row items-center justify-between text-sm text-ivory/75 gap-4">
           <p>&copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>

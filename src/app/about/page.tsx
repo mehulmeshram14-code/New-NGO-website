@@ -16,7 +16,7 @@ export default function AboutPage() {
           <div className="mx-auto mt-16 max-w-5xl space-y-20">
             <section className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
               <div>
-                <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-accent-gold">Our Story</p>
+                <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-accent-gold-deep">Our Story</p>
                 <h2 className="font-editorial text-4xl font-bold leading-tight text-primary-green md:text-5xl">{landingContent.story.title}</h2>
                 <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
                   {landingContent.story.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
@@ -27,19 +27,19 @@ export default function AboutPage() {
               </div>
             </section>
 
-            <section id="mission" className="grid gap-10 bg-primary-green p-8 text-ivory md:p-12 lg:grid-cols-[1fr_0.8fr]">
+            <section id="mission" className="grid gap-10 bg-primary-green-deep p-8 text-ivory md:p-12 lg:grid-cols-[1fr_0.8fr]">
               <div>
-                <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-accent-gold">Vision & Mission</p>
+                <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-accent-gold-light">Vision & Mission</p>
                 <h2 className="font-editorial text-4xl font-bold leading-tight md:text-5xl">{landingContent.vision.title}</h2>
                 <div className="mt-8 space-y-5 text-lg leading-relaxed text-ivory/80">
                   {landingContent.vision.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 </div>
               </div>
-              <blockquote className="flex items-center border-l border-accent-gold pl-6 font-editorial text-3xl italic text-accent-gold">“{landingContent.vision.quote}”</blockquote>
+              <blockquote className="flex items-center border-l border-accent-gold pl-6 font-editorial text-3xl italic text-accent-gold-light">“{landingContent.vision.quote}”</blockquote>
             </section>
 
             <section>
-              <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-accent-gold">Core Values</p>
+              <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-accent-gold-deep">Core Values</p>
               <h2 className="font-editorial text-4xl font-bold text-primary-green">We’re young. We won’t pretend otherwise.</h2>
               <div className="mt-10 grid gap-5 md:grid-cols-2">
                 {landingContent.values.map((value) => (

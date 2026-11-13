@@ -15,6 +15,7 @@ import {
 import memoryStore from "../src/lib/memoryStore";
 import { CreateDonationOrderSchema } from "../src/lib/validation";
 import { checkRateLimit, getClientIp } from "../src/lib/rateLimit";
+import { isMemoryStoreAllowed } from "../src/lib/db";
 
 interface TestResult {
   id: number;
@@ -129,7 +130,7 @@ async function runTestSuite() {
     const req = new NextRequest("http://localhost:3000/api/donations/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: 500, donorName: "Tester" }),
+      body: JSON.stringify({ amount: 500, donorName: "Tester", donorPhone: "9876543210" }),
     });
 
     const res = await createOrderHandler(req);
@@ -208,7 +209,7 @@ async function runTestSuite() {
     const req = new NextRequest("http://localhost:3000/api/donations/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: 500, donorName: "Tester" }),
+      body: JSON.stringify({ amount: 500, donorName: "Tester", donorPhone: "9876543210" }),
     });
 
     const res = await createOrderHandler(req);
@@ -681,7 +682,7 @@ async function runTestSuite() {
       new NextRequest("http://localhost:3000/api/donations/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: 500 }),
+        body: JSON.stringify({ amount: 500, donorName: "Tester", donorPhone: "9876543210" }),
       })
     );
     const body = await res.json();
@@ -694,6 +695,24 @@ async function runTestSuite() {
   }
 
   // --------------------------------------------------------------------------
+  // TEST 32: In-memory storage in production only with the explicit opt-in
+  // --------------------------------------------------------------------------
+  try {
+    const savedEnv = process.env.NODE_ENV;
+    const savedFlag = process.env.ALLOW_MEMORY_STORE;
+    (process.env as Record<string, string>).NODE_ENV = "production";
+    delete process.env.ALLOW_MEMORY_STORE;
+    const offByDefault = !isMemoryStoreAllowed();
+    process.env.ALLOW_MEMORY_STORE = "true";
+    const onWhenOptedIn = isMemoryStoreAllowed();
+    restoreEnv("NODE_ENV", savedEnv);
+    restoreEnv("ALLOW_MEMORY_STORE", savedFlag);
+    recordTest(32, "Memory store in production needs explicit opt-in", offByDefault && onWhenOptedIn, `default off: ${offByDefault}, ALLOW_MEMORY_STORE=true on: ${onWhenOptedIn}`);
+  } catch (err: unknown) {
+    recordTest(32, "Memory store in production needs explicit opt-in", false, (err as Error).message);
+  }
+
+  // --------------------------------------------------------------------------
   // TEST 27: Rate limiter ignores the spoofable left-most X-Forwarded-For entry
   // --------------------------------------------------------------------------
   try {
@@ -702,6 +721,41 @@ async function runTestSuite() {
     recordTest(27, "Client IP not taken from spoofable header", spoofed === "203.0.113.9" && realIp === "198.51.100.7", `xff → ${spoofed}, x-real-ip → ${realIp}`);
   } catch (err: unknown) {
     recordTest(27, "Client IP not taken from spoofable header", false, (err as Error).message);
+  }
+
+  // --------------------------------------------------------------------------
+  // TESTS 28-31: Donor details rules (name + phone required, email optional, ₹50 minimum)
+  // --------------------------------------------------------------------------
+  const base = { amount: 1000, donorName: "Asha Patil", donorPhone: "+91 98765-43210" };
+  const check = (input: unknown) => CreateDonationOrderSchema.safeParse(input);
+  try {
+    const noName = check({ ...base, donorName: "" });
+    const noPhone = check({ amount: 1000, donorName: "Asha Patil" });
+    recordTest(28, "Name and phone are required", !noName.success && !noPhone.success, `no name rejected: ${!noName.success}, no phone rejected: ${!noPhone.success}`);
+  } catch (err: unknown) {
+    recordTest(28, "Name and phone are required", false, (err as Error).message);
+  }
+  try {
+    const noEmail = check(base);
+    const badEmail = check({ ...base, donorEmail: "not-an-email" });
+    recordTest(29, "Email is optional but validated", noEmail.success && !badEmail.success, `no email ok: ${noEmail.success}, bad email rejected: ${!badEmail.success}`);
+  } catch (err: unknown) {
+    recordTest(29, "Email is optional but validated", false, (err as Error).message);
+  }
+  try {
+    const parsed = check(base);
+    const normalised = parsed.success ? parsed.data.donorPhone : "";
+    const bad = check({ ...base, donorPhone: "12345" });
+    recordTest(30, "Phone numbers are normalised and validated", normalised === "+919876543210" && !bad.success, `"+91 98765-43210" → "${normalised}", short number rejected: ${!bad.success}`);
+  } catch (err: unknown) {
+    recordTest(30, "Phone numbers are normalised and validated", false, (err as Error).message);
+  }
+  try {
+    const below = check({ ...base, amount: 49 });
+    const oneMeal = check({ ...base, amount: 50 });
+    recordTest(31, "Minimum donation is one meal (₹50)", !below.success && oneMeal.success, `₹49 rejected: ${!below.success}, ₹50 accepted: ${oneMeal.success}`);
+  } catch (err: unknown) {
+    recordTest(31, "Minimum donation is one meal (₹50)", false, (err as Error).message);
   }
 
   console.log("\n================================================================================");

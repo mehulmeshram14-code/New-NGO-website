@@ -7,14 +7,14 @@ import { SectionHeading } from "../ui/SectionHeading";
 
 export function VidarbhaMap() {
   return (
-    <section className="relative py-24 bg-primary-green text-white overflow-hidden">
+    <section className="relative py-24 bg-primary-green-deep text-white overflow-hidden">
       <Image
         src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2070&auto=format&fit=crop"
         alt="Agricultural fields in a rural landscape"
         fill
         className="object-cover opacity-20"
       />
-      <div className="absolute inset-0 bg-primary-green/85" />
+      <div className="absolute inset-0 bg-primary-green-deep/90" />
       <div className="container relative z-10 mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>

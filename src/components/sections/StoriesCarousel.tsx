@@ -10,14 +10,14 @@ const updates = [
     number: "01",
     title: "The work starts with showing up",
     text: "Our Community Nutrition Programme will begin across the Melghat tribal belt and Vidarbha's urban-slum clusters, bringing real food and real dignity closer to children, mothers, and elderly people.",
-    accent: "bg-primary-green",
+    accent: "bg-primary-green-deep",
   },
   {
     category: "Events",
     number: "02",
     title: "Three phases. One connected future.",
     text: "Food, then education, then livelihood. Every phase is designed to make the next possibility more reachable for the people and communities we serve.",
-    accent: "bg-accent-gold",
+    accent: "bg-accent-gold-deep",
   },
   {
     category: "Announcements",
@@ -57,7 +57,7 @@ export function StoriesCarousel() {
         <div className={`relative flex flex-col justify-between p-8 text-ivory transition-colors duration-500 md:p-10 ${activeUpdate.accent}`}>
           <span className="font-serif text-7xl font-bold opacity-30">{activeUpdate.number}</span>
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-ivory/70">{activeUpdate.category}</p>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-ivory">{activeUpdate.category}</p>
             <div className="mt-5 h-px w-16 bg-accent-gold" />
           </div>
         </div>

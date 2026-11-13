@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { siteConfig } from "@/data/siteConfig";
+import { EmailText } from "@/components/ui/EmailText";
 import { ContactForm } from "@/components/ContactForm";
 
 export default function ContactPage() {
@@ -20,8 +21,8 @@ export default function ContactPage() {
               <ul className="space-y-4 mb-8 text-charcoal font-bold">
                 <li>
                   Email:{" "}
-                  <a href={`mailto:${siteConfig.contact.email}`} className="text-primary-green hover:underline break-all">
-                    {siteConfig.contact.email}
+                  <a href={`mailto:${siteConfig.contact.email}`} className="text-primary-green hover:underline">
+                    <EmailText email={siteConfig.contact.email} />
                   </a>
                 </li>
                 <li>

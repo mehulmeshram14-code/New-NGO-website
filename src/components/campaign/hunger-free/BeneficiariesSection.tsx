@@ -58,14 +58,14 @@ function BeneficiaryCard({ photo, hidden }: { photo: Beneficiary; hidden: boolea
       </svg>
 
       <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider">
-        <ShieldCheck className="w-3.5 h-3.5 text-accent-gold" /> Field record
+        <ShieldCheck className="w-3.5 h-3.5 text-accent-gold-light" /> Field record
       </span>
 
       <figcaption className="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent text-white">
         <div className="flex items-center justify-between gap-2">
           <span className="text-sm font-bold truncate">{displayName}</span>
           {photo.age && (
-            <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full bg-accent-gold text-white">
+            <span className="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full bg-accent-gold-deep text-white">
               Age {photo.age}
             </span>
           )}
@@ -105,7 +105,7 @@ export function BeneficiariesSection() {
           </div>
           <Button
             href="#donate"
-            className="shrink-0 gap-2 bg-accent-gold text-white hover:bg-primary-green focus:ring-accent-gold transition-colors duration-300"
+            className="shrink-0 gap-2 bg-accent-gold-deep text-white hover:bg-primary-green focus:ring-accent-gold-deep transition-colors duration-300"
           >
             <Heart className="w-4 h-4 fill-white" /> Donate Now
           </Button>

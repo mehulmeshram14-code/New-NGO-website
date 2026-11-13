@@ -18,7 +18,7 @@ export function LegalPage({ eyebrow, title, updated, children }: LegalPageProps)
       <main className="flex-1 pt-32 pb-24 bg-ivory">
         <div className="container mx-auto px-6 md:px-12">
           <article className="max-w-3xl mx-auto bg-white rounded-3xl shadow-md border border-primary-green/10 p-8 md:p-12">
-            <p className="text-accent-gold font-bold tracking-widest uppercase text-sm">{eyebrow}</p>
+            <p className="text-accent-gold-deep font-bold tracking-widest uppercase text-sm">{eyebrow}</p>
             <h1 className="mt-3 text-4xl md:text-5xl text-primary-green leading-tight">{title}</h1>
             <p className="mt-4 pb-6 border-b border-sand text-sm text-muted">
               {updated} · {siteConfig.name} · Section 8 non-profit (CIN: {siteConfig.cin})

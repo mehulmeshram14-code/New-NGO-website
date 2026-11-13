@@ -24,7 +24,7 @@ export function SectionHeading({ title, subtitle, className, align = "center" }:
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-accent-gold font-bold tracking-widest uppercase text-sm"
+          className="text-accent-gold-deep font-bold tracking-widest uppercase text-sm"
         >
           {subtitle}
         </motion.span>

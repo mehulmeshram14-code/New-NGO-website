@@ -36,7 +36,7 @@ export function TeamSection() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-accent-gold">
+          <p className="mb-5 text-sm font-bold uppercase tracking-[0.2em] text-accent-gold-deep">
             Core Team
           </p>
           <h2 className="font-editorial text-4xl md:text-6xl font-bold text-primary-green mb-6 leading-tight">
@@ -110,7 +110,7 @@ function TeamMemberCard({ member, index }: { member: TeamMember; index: number }
         <h3 className="font-editorial text-3xl font-bold !text-white mb-1 drop-shadow-md">
           {member.name}
         </h3>
-        <p className="text-accent-gold font-bold uppercase tracking-widest text-xs mb-4">
+        <p className="text-accent-gold-light font-bold uppercase tracking-widest text-xs mb-4">
           {member.role}
         </p>
         
