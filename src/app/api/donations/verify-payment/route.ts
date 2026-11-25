@@ -11,6 +11,13 @@ import {
   isPaymentSimulationAllowed,
   verifyRazorpayPaymentSignature,
 } from "@/lib/razorpay";
+import { getCampaign } from "@/data/campaigns";
+
+/** Campaign details for the receipt, from the stored record (never from the request). */
+function campaignFields(donation: { campaignId?: string }) {
+  const campaign = getCampaign(donation.campaignId);
+  return { campaignId: campaign.id, campaign: campaign.name };
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -151,6 +158,8 @@ export async function POST(req: NextRequest) {
         amountPaise: existingDonation.amountPaise,
         currency: existingDonation.currency || "INR",
         donorName: existingDonation.donorName,
+        ...campaignFields(existingDonation),
+        capturedAt: existingDonation.capturedAt ? new Date(existingDonation.capturedAt).toISOString() : undefined,
         message: "Thank you for supporting Deep Roots Foundation. Your donation has been successfully received.",
       });
     }
@@ -253,6 +262,7 @@ export async function POST(req: NextRequest) {
         amountPaise: existingDonation.amountPaise,
         currency: existingDonation.currency || "INR",
         donorName: existingDonation.donorName,
+        ...campaignFields(existingDonation),
         capturedAt: finalCapturedDate.toISOString(),
         message: "Thank you for supporting Deep Roots Foundation. Your donation has been successfully received.",
       });
@@ -280,6 +290,9 @@ export async function POST(req: NextRequest) {
         pending: true,
         status: "authorized",
         donationReference: existingDonation.donationReference || existingDonation.internalId,
+        amount: existingDonation.amount,
+        donorName: existingDonation.donorName,
+        ...campaignFields(existingDonation),
         message: "Your payment has been authorized by your bank, but confirmation is pending settlement. Please check back shortly.",
       });
     } else {

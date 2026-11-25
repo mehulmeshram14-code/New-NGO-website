@@ -16,6 +16,8 @@ import memoryStore from "../src/lib/memoryStore";
 import { CreateDonationOrderSchema } from "../src/lib/validation";
 import { checkRateLimit, getClientIp } from "../src/lib/rateLimit";
 import { isMemoryStoreAllowed } from "../src/lib/db";
+import { getCampaign } from "../src/data/campaigns";
+import { amountInWords } from "../src/lib/amountInWords";
 
 interface TestResult {
   id: number;
@@ -710,6 +712,45 @@ async function runTestSuite() {
     recordTest(32, "Memory store in production needs explicit opt-in", offByDefault && onWhenOptedIn, `default off: ${offByDefault}, ALLOW_MEMORY_STORE=true on: ${onWhenOptedIn}`);
   } catch (err: unknown) {
     recordTest(32, "Memory store in production needs explicit opt-in", false, (err as Error).message);
+  }
+
+  // --------------------------------------------------------------------------
+  // TEST 33: Campaign ids are validated; the stored name comes from the registry
+  // --------------------------------------------------------------------------
+  try {
+    const base = { amount: 1000, donorName: "Asha Patil", donorPhone: "9876543210" };
+    const elder = CreateDonationOrderSchema.safeParse({ ...base, campaignId: "no-elder-sleeps-hungry" });
+    const unknown = CreateDonationOrderSchema.safeParse({ ...base, campaignId: "made-up-campaign" });
+    const missing = CreateDonationOrderSchema.safeParse(base);
+    const passed =
+      elder.success &&
+      getCampaign(elder.data.campaignId).name === "No Elder Sleeps Hungry - Amravati" &&
+      !unknown.success &&
+      missing.success &&
+      missing.data.campaignId === "general";
+    recordTest(33, "Campaign ids validated against the registry", passed, `elder ok: ${elder.success}, unknown rejected: ${!unknown.success}, default: ${missing.success ? missing.data.campaignId : "-"}`);
+  } catch (err: unknown) {
+    recordTest(33, "Campaign ids validated against the registry", false, (err as Error).message);
+  }
+
+  // --------------------------------------------------------------------------
+  // TEST 34: Receipt amount in words (Indian numbering)
+  // --------------------------------------------------------------------------
+  try {
+    const cases: [number, string][] = [
+      [50, "Rupees Fifty Only"],
+      [1000, "Rupees One Thousand Only"],
+      [2500, "Rupees Two Thousand Five Hundred Only"],
+      [70000, "Rupees Seventy Thousand Only"],
+      [150000, "Rupees One Lakh Fifty Thousand Only"],
+      [300000, "Rupees Three Lakh Only"],
+      [500000, "Rupees Five Lakh Only"],
+      [1234567, "Rupees Twelve Lakh Thirty Four Thousand Five Hundred Sixty Seven Only"],
+    ];
+    const wrong = cases.filter(([n, words]) => amountInWords(n) !== words);
+    recordTest(34, "Amount in words for receipts", wrong.length === 0, wrong.length ? wrong.map(([n]) => `${n} → ${amountInWords(n)}`).join("; ") : `${cases.length} amounts correct`);
+  } catch (err: unknown) {
+    recordTest(34, "Amount in words for receipts", false, (err as Error).message);
   }
 
   // --------------------------------------------------------------------------

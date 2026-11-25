@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { CONTACT_SUBJECTS } from "@/data/contactForm";
 import { formatINR, MAX_DONATION, MIN_DONATION } from "@/data/donation";
+import { CAMPAIGN_IDS } from "@/data/campaigns";
 
 /** Strips spaces, dashes and brackets, then expects 10–13 digits with an optional leading "+". */
 export const PhoneSchema = z
@@ -37,7 +38,8 @@ export const CreateDonationOrderSchema = z.object({
     .min(MIN_DONATION, `Minimum donation amount is ${formatINR(MIN_DONATION)} (one meal).`)
     .max(MAX_DONATION, `For donations above ${formatINR(MAX_DONATION)}, please contact our team directly.`),
   frequency: z.enum(["one_time", "monthly"]).default("one_time"),
-  campaign: z.string().default("First Meal - Vidarbha"),
+  // Only known campaigns; the server derives the stored name from src/data/campaigns.ts.
+  campaignId: z.enum(CAMPAIGN_IDS, { message: "Unknown campaign." }).default("general"),
   isTaxReceiptRequested: z.boolean().default(false),
 });
 

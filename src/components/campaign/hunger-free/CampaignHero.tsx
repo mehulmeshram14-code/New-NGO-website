@@ -4,7 +4,7 @@ import { DonationCard } from "@/components/donation/DonationCard";
 import { hungerFreeCampaign } from "@/data/hungerFreeCampaign";
 import { formatINR, mealsFor } from "@/data/donation";
 
-const { hero, campaignName, purpose } = hungerFreeCampaign;
+const { hero } = hungerFreeCampaign;
 const EXAMPLE_AMOUNT = 1000;
 
 export function CampaignHero() {
@@ -20,7 +20,7 @@ export function CampaignHero() {
           </h1>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">{hero.description}</p>
 
-          <DonationCard campaignName={campaignName} purpose={purpose} className="mt-8" />
+          <DonationCard className="mt-8" />
         </div>
 
         <div className="lg:sticky lg:top-32">

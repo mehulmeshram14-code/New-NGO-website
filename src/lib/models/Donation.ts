@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
+import { MIN_DONATION } from "@/data/donation";
 
 export type DonationStatus = "pending" | "authorized" | "captured" | "failed" | "refunded";
 export type PaymentStatus = "pending" | "awaiting_verification" | "successful" | "failed" | "cancelled" | "refunded";
@@ -25,6 +26,7 @@ export interface IDonation extends Document {
   status: DonationStatus;
   paymentStatus: PaymentStatus; // Synchronized alias for backward compatibility
   campaign: string;
+  campaignId?: string;
   isTaxReceiptRequested: boolean;
   notes?: string;
   createdAt: Date;
@@ -39,10 +41,10 @@ const DonationSchema = new Schema<IDonation>(
     donationReference: { type: String, required: true, unique: true },
     internalId: { type: String, required: true, index: true },
     donorName: { type: String, required: true, trim: true, default: "Generous Supporter" },
-    donorEmail: { type: String, required: true, trim: true, lowercase: true, index: true },
+    donorEmail: { type: String, default: "", trim: true, lowercase: true, index: true }, // optional
     donorPhone: { type: String, trim: true },
     donorPan: { type: String, trim: true, uppercase: true },
-    amount: { type: Number, required: true, min: [10, "Minimum donation is ₹10"] },
+    amount: { type: Number, required: true, min: [MIN_DONATION, `Minimum donation is ₹${MIN_DONATION}`] },
     amountPaise: { type: Number, required: true },
     currency: { type: String, default: "INR" },
     frequency: { type: String, enum: ["one_time", "monthly"], default: "one_time" },
@@ -64,7 +66,8 @@ const DonationSchema = new Schema<IDonation>(
       default: "pending",
       index: true,
     },
-    campaign: { type: String, default: "First Meal - Vidarbha" },
+    campaign: { type: String, default: "General Donation" },
+    campaignId: { type: String, default: "general", index: true },
     isTaxReceiptRequested: { type: Boolean, default: false },
     notes: { type: String },
     capturedAt: { type: Date },

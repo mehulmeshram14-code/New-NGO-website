@@ -4,7 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { DonationProvider } from "@/components/donation/DonationProvider";
 import { DonationCard } from "@/components/donation/DonationCard";
-import { COST_PER_MEAL, formatINR, generalDonation } from "@/data/donation";
+import { COST_PER_MEAL, formatINR } from "@/data/donation";
 import { HUNGER_FREE_PATH } from "@/data/hungerFreeCampaign";
 
 export const metadata: Metadata = {
@@ -28,8 +28,8 @@ export default function DonatePage() {
             {formatINR(COST_PER_MEAL)} cooks and serves one fresh meal. Pay securely by UPI, card or net banking.
           </p>
 
-          <DonationProvider>
-            <DonationCard {...generalDonation} className="mt-10" />
+          <DonationProvider campaignId="general">
+            <DonationCard className="mt-10" />
           </DonationProvider>
 
           <p className="mt-8 text-center text-sm text-muted">

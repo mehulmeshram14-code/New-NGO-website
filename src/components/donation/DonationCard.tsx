@@ -2,60 +2,40 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import confetti from "canvas-confetti";
-import {
-  AlertCircle,
-  ArrowLeft,
-  ArrowRight,
-  CircleCheck,
-  Clock,
-  Heart,
-  LoaderCircle,
-  Lock,
-  Printer,
-  ShieldCheck,
-} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { AlertCircle, ArrowLeft, ArrowRight, Heart, LoaderCircle, Lock } from "lucide-react";
 import { cn } from "@/components/ui/Button";
 import { loadRazorpayCheckoutScript } from "@/lib/loadRazorpay";
+import { saveReceipt } from "@/lib/donationReceipt";
 import { DONATION_CARD_ID, useDonation } from "./DonationProvider";
-import { donationLevels, formatINR, MAX_DONATION, mealsFor, MIN_DONATION } from "@/data/donation";
+import { formatINR, MAX_DONATION, mealsFor, MIN_DONATION } from "@/data/donation";
+import { getCampaign } from "@/data/campaigns";
 
-// Website palette: primary-green, accent-gold, primary-brown, sand
-const CONFETTI_COLORS = ["#597349", "#E89230", "#4A311D", "#EDE4D5"];
+/** Universal thank-you page shared by every campaign. */
+const THANK_YOU_PATH = "/thank-you";
 
-interface Receipt {
-  donationReference: string;
-  paymentId: string;
-  amount: number;
-  donorName: string;
-  pending: boolean;
-  message?: string;
-}
-
+/** The campaign (levels, wording, receipt) comes from the surrounding <DonationProvider campaignId>. */
 interface DonationCardProps {
-  /** Stored on the donation record and sent to Razorpay. */
-  campaignName: string;
-  /** What the money supports; shown on the Razorpay checkout and the receipt. */
-  purpose: string;
   className?: string;
 }
+
+/** Main button colours, per campaign (see DonationCardCopy.accent). Shared with the sticky bar. */
+export const BUTTON_TONES = {
+  gold: "bg-accent-gold-deep hover:bg-primary-brown focus-visible:ring-accent-gold-deep",
+  green: "bg-primary-green hover:bg-primary-green-deep focus-visible:ring-primary-green",
+};
 
 const inputClass =
   "w-full rounded-xl border border-sand bg-white px-4 py-3 text-charcoal placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition";
 
-function celebrate() {
-  try {
-    confetti({ particleCount: 80, spread: 75, origin: { y: 0.6 }, colors: CONFETTI_COLORS, disableForReducedMotion: true });
-  } catch {
-    // Purely decorative.
-  }
-}
-
 /** Same rule as the server's PhoneSchema: 10–13 digits, optional leading "+". */
 const isValidPhone = (value: string) => /^\+?\d{10,13}$/.test(value.replace(/[\s\-()]/g, ""));
 
-export function DonationCard({ campaignName, purpose, className }: DonationCardProps) {
-  const { presetAmount, customInput, amount, step, setStep, choosePreset, setCustomInput } = useDonation();
+export function DonationCard({ className }: DonationCardProps) {
+  const router = useRouter();
+  const { campaign, presetAmount, customInput, amount, step, setStep, choosePreset, setCustomInput } = useDonation();
+  const { card } = campaign;
+  const buttonTone = BUTTON_TONES[card.accent];
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -64,7 +44,6 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
   const [errorField, setErrorField] = useState<"amount" | "name" | "phone" | "email" | undefined>();
   const [isPaying, setIsPaying] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
-  const [receipt, setReceipt] = useState<Receipt | null>(null);
 
   const meals = mealsFor(amount);
 
@@ -102,7 +81,7 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
           donorPhone: phone.trim(),
           donorEmail: email.trim(),
           frequency: "one_time",
-          campaign: campaignName,
+          campaignId: campaign.id,
           // 80G approval is pending, so no tax receipt can be issued yet.
           isTaxReceiptRequested: false,
         }),
@@ -134,7 +113,7 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
         amount: order.amount, // paise
         currency: order.currency || "INR",
         name: "DeepRoots Foundation",
-        description: purpose,
+        description: campaign.purpose,
         image: "/logo.png",
         order_id: order.orderId,
         prefill: { name: name.trim(), contact: phone.trim(), email: email.trim() || undefined },
@@ -155,34 +134,29 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
               }),
             });
             const data = await res.json();
-            if (res.ok && data.success && data.status === "captured") {
-              setReceipt({
-                donationReference: data.donationReference,
-                paymentId: data.paymentId,
-                amount: data.amount,
-                donorName: data.donorName || name.trim(),
-                pending: false,
-              });
-              setStep("done");
-              celebrate();
-            } else if (data.pending) {
-              setReceipt({
-                donationReference: data.donationReference || order.donationReference,
-                paymentId: response.razorpay_payment_id,
-                amount,
-                donorName: name.trim(),
-                pending: true,
-                message: data.message,
-              });
-              setStep("done");
-            } else {
+            const confirmed = res.ok && data.success && data.status === "captured";
+            if (!confirmed && !data.pending) {
               throw new Error(data.error || "We couldn't verify your payment.");
             }
+            // The receipt is built from the server's verified record, not from the form.
+            saveReceipt({
+              reference: data.donationReference || order.donationReference,
+              paymentId: data.paymentId || response.razorpay_payment_id,
+              orderId: data.orderId || response.razorpay_order_id,
+              amount: typeof data.amount === "number" ? data.amount : amount,
+              donorName: data.donorName || name.trim(),
+              campaignId: getCampaign(data.campaignId).id,
+              date: data.capturedAt || new Date().toISOString(),
+              status: confirmed ? "confirmed" : "pending",
+              message: confirmed ? undefined : data.message,
+            });
+            setStep("done");
+            router.push(THANK_YOU_PATH);
+            // Keep the button in its "Confirming…" state while the thank-you page loads.
           } catch (err) {
             fail(
               `${(err as Error).message} If money was deducted, please contact us with your payment ID ${response.razorpay_payment_id}.`
             );
-          } finally {
             setIsVerifying(false);
             setIsPaying(false);
           }
@@ -202,12 +176,6 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
       fail((err as Error).message || "Something went wrong. Please try again.", (err as { field?: typeof errorField }).field);
       setIsPaying(false);
     }
-  };
-
-  const resetForAnother = () => {
-    setReceipt(null);
-    clearError();
-    setStep("amount");
   };
 
   const errorBox = error && (
@@ -236,19 +204,46 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
       {/* STEP 1 — amount */}
       {step === "amount" && (
         <div className="space-y-4">
-          <div role="radiogroup" aria-label="Donation amount" className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-            {donationLevels.map((level) => {
+          <div
+            role="radiogroup"
+            aria-label="Donation amount"
+            className={cn("grid grid-cols-2 sm:grid-cols-3", card.detailedLevels ? "gap-3" : "gap-2.5")}
+          >
+            {campaign.levels.map((level) => {
               const selected = !customInput && presetAmount === level.amount;
-              return (
+              const select = () => {
+                clearError();
+                choosePreset(level.amount);
+              };
+              return card.detailedLevels ? (
+                // Detailed: level name, amount and what it does, with the badge underneath.
                 <button
                   key={level.amount}
                   type="button"
                   role="radio"
                   aria-checked={selected}
-                  onClick={() => {
-                    clearError();
-                    choosePreset(level.amount);
-                  }}
+                  onClick={select}
+                  className={cn(
+                    "flex flex-col items-start rounded-2xl border-2 p-3 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-green focus-visible:ring-offset-2",
+                    selected ? "border-primary-green bg-primary-green/10" : "border-sand bg-white hover:border-primary-green/50"
+                  )}
+                >
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-muted">{level.name}</span>
+                  <span className="mt-1 font-serif text-2xl text-primary-brown">{formatINR(level.amount)}</span>
+                  <span className="mt-1 text-xs leading-snug text-charcoal/80">{level.description}</span>
+                  {level.badge && (
+                    <span className="mt-2 rounded-full bg-primary-brown px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                      {level.badge}
+                    </span>
+                  )}
+                </button>
+              ) : (
+                <button
+                  key={level.amount}
+                  type="button"
+                  role="radio"
+                  aria-checked={selected}
+                  onClick={select}
                   className={cn(
                     "relative rounded-2xl border-2 px-2 py-3 text-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-green focus-visible:ring-offset-2",
                     selected
@@ -271,8 +266,11 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
           </div>
 
           <div>
-            <label htmlFor="donation-other" className="sr-only">
-              Other amount in rupees
+            <label
+              htmlFor="donation-other"
+              className={card.detailedLevels ? "mb-1.5 block text-sm font-bold text-charcoal" : "sr-only"}
+            >
+              {card.detailedLevels ? "Or enter your own amount" : "Other amount in rupees"}
             </label>
             <div className="relative">
               <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-bold text-muted">₹</span>
@@ -280,7 +278,7 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
                 id="donation-other"
                 inputMode="numeric"
                 autoComplete="off"
-                placeholder="Other amount"
+                placeholder={card.customPlaceholder}
                 value={customInput}
                 onChange={(e) => {
                   clearError();
@@ -289,19 +287,25 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
                 aria-invalid={errorField === "amount" || undefined}
                 className={cn(
                   inputClass,
-                  "pl-9 pr-28 font-semibold",
+                  "pl-9 font-semibold placeholder:font-normal",
+                  // Long placeholders ("Even ₹50 feeds one elder tonight") must fit on phones.
+                  card.detailedLevels && "placeholder:text-sm",
+                  // Leave room for the hint on the right only while it is shown.
+                  customInput || !card.detailedLevels ? "pr-28" : "pr-4",
                   customInput && "border-primary-green ring-1 ring-primary-green",
                   errorField === "amount" && "ring-2 ring-red-400"
                 )}
               />
-              <span
-                className={cn(
-                  "pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm",
-                  customInput && amount >= MIN_DONATION ? "font-semibold text-primary-green" : "text-muted"
-                )}
-              >
-                {customInput && amount >= MIN_DONATION ? `= ${meals} meals` : `min ${formatINR(MIN_DONATION)}`}
-              </span>
+              {(customInput || !card.detailedLevels) && (
+                <span
+                  className={cn(
+                    "pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm",
+                    customInput && amount >= MIN_DONATION ? "font-semibold text-primary-green" : "text-muted"
+                  )}
+                >
+                  {customInput && amount >= MIN_DONATION ? `= ${meals} meals` : `min ${formatINR(MIN_DONATION)}`}
+                </span>
+              )}
             </div>
           </div>
 
@@ -310,12 +314,19 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
           <button
             type="button"
             onClick={goToDetails}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-accent-gold-deep px-6 py-4 text-lg font-bold text-white transition-colors hover:bg-primary-brown focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold-deep focus-visible:ring-offset-2"
+            className={cn(
+              "flex w-full items-center justify-center gap-2 rounded-full px-4 py-4 text-base font-bold text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:px-6 sm:text-lg",
+              buttonTone
+            )}
           >
-            Continue · {formatINR(amount || 0)}
-            <ArrowRight className="h-5 w-5" />
+            <span className="whitespace-nowrap">{card.continueLabel(amount || 0)}</span>
+            {/* The arrow is decorative; dropping it on phones keeps the label on one line. */}
+            <ArrowRight className="hidden h-5 w-5 shrink-0 sm:block" aria-hidden="true" />
           </button>
 
+          {card.footnote ? (
+            <p className="text-center text-xs text-muted">{card.footnote}</p>
+          ) : (
           <p className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-center text-xs text-muted">
             <span className="inline-flex items-center gap-1">
               <Heart className="h-3.5 w-3.5 text-primary-green" />
@@ -325,6 +336,7 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
               <Lock className="h-3.5 w-3.5 text-primary-green" /> Secure payment via Razorpay
             </span>
           </p>
+          )}
         </div>
       )}
 
@@ -400,7 +412,10 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
           <button
             type="submit"
             disabled={isPaying}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-accent-gold-deep px-6 py-4 text-lg font-bold text-white transition-colors hover:bg-primary-brown focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold-deep focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70"
+            className={cn(
+              "flex w-full items-center justify-center gap-2 rounded-full px-6 py-4 text-lg font-bold text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-70",
+              buttonTone
+            )}
           >
             {isPaying ? (
               <>
@@ -424,67 +439,11 @@ export function DonationCard({ campaignName, purpose, className }: DonationCardP
         </form>
       )}
 
-      {/* DONE — thank you + receipt */}
-      {step === "done" && receipt && (
-        <div className="space-y-5 text-center">
-          <span
-            className={cn(
-              "mx-auto flex h-14 w-14 items-center justify-center rounded-full",
-              receipt.pending ? "bg-accent-gold-deep text-white" : "bg-primary-green text-white"
-            )}
-          >
-            {receipt.pending ? <Clock className="h-7 w-7" /> : <CircleCheck className="h-7 w-7" />}
-          </span>
-          <div>
-            <h2 className="text-2xl text-primary-green">
-              {receipt.pending ? "Payment received, confirming" : `Thank you, ${receipt.donorName.split(" ")[0]}!`}
-            </h2>
-            <p className="mt-2 text-muted">
-              {receipt.pending
-                ? receipt.message || "Your bank has authorised the payment. Confirmation usually takes a few minutes."
-                : `Your ${formatINR(receipt.amount)} will serve ${mealsFor(receipt.amount)} freshly cooked meals.`}
-            </p>
-          </div>
-
-          <dl className="grid grid-cols-2 gap-3 rounded-2xl bg-ivory p-4 text-left text-sm">
-            <div>
-              <dt className="text-[11px] font-bold uppercase tracking-wider text-muted">Amount</dt>
-              <dd className="font-bold text-charcoal">{formatINR(receipt.amount)}</dd>
-            </div>
-            <div>
-              <dt className="text-[11px] font-bold uppercase tracking-wider text-muted">Donor</dt>
-              <dd className="font-bold text-charcoal">{receipt.donorName}</dd>
-            </div>
-            <div className="min-w-0">
-              <dt className="text-[11px] font-bold uppercase tracking-wider text-muted">Reference</dt>
-              <dd className="truncate font-mono text-xs text-charcoal">{receipt.donationReference}</dd>
-            </div>
-            <div className="min-w-0">
-              <dt className="text-[11px] font-bold uppercase tracking-wider text-muted">Payment ID</dt>
-              <dd className="truncate font-mono text-xs text-charcoal">{receipt.paymentId}</dd>
-            </div>
-          </dl>
-
-          <div className="flex flex-wrap justify-center gap-3 print:hidden">
-            <button
-              type="button"
-              onClick={() => window.print()}
-              className="inline-flex items-center gap-2 rounded-full border-2 border-primary-green px-5 py-2.5 font-bold text-primary-green transition-colors hover:bg-primary-green hover:text-white"
-            >
-              <Printer className="h-4 w-4" /> Print receipt
-            </button>
-            <button
-              type="button"
-              onClick={resetForAnother}
-              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-bold text-primary-green hover:underline"
-            >
-              Give again
-            </button>
-          </div>
-          <p className="flex items-center justify-center gap-1 text-xs text-muted">
-            <ShieldCheck className="h-3.5 w-3.5 text-primary-green" /> Keep this reference for your records.
-          </p>
-        </div>
+      {/* DONE — shown only for the moment it takes to open /thank-you */}
+      {step === "done" && (
+        <p role="status" className="flex items-center justify-center gap-2 py-10 text-muted">
+          <LoaderCircle className="h-5 w-5 animate-spin text-primary-green" /> Opening your receipt…
+        </p>
       )}
     </div>
   );

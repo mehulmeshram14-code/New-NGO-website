@@ -6,6 +6,7 @@ import Donation from "@/lib/models/Donation";
 import memoryStore from "@/lib/memoryStore";
 import { getRazorpayCredentials, getRazorpayClient, isPaymentSimulationAllowed } from "@/lib/razorpay";
 import crypto from "crypto";
+import { getCampaign } from "@/data/campaigns";
 
 export async function POST(req: NextRequest) {
   try {
@@ -44,6 +45,7 @@ export async function POST(req: NextRequest) {
     }
 
     const data = parsed.data;
+    const campaign = getCampaign(data.campaignId);
 
     // 3. Amount limits (MIN_DONATION..MAX_DONATION, whole rupees) are enforced by
     // CreateDonationOrderSchema. Convert to paise with integer arithmetic.
@@ -75,7 +77,7 @@ export async function POST(req: NextRequest) {
             donorName: data.donorName,
             donorEmail: data.donorEmail || "",
             donorPhone: data.donorPhone,
-            campaign: data.campaign,
+            campaign: campaign.name,
           },
         });
 
@@ -117,7 +119,7 @@ export async function POST(req: NextRequest) {
         donationReference,
         internalId: donationReference,
         donorName: data.donorName,
-        donorEmail: data.donorEmail || "anonymous@deeprootsfoundation.org",
+        donorEmail: data.donorEmail || "",
         donorPhone: data.donorPhone,
         donorPan: data.donorPan,
         amount: data.amount,
@@ -129,7 +131,8 @@ export async function POST(req: NextRequest) {
         providerOrderId: providerOrderId,
         status: "pending",
         paymentStatus: "pending",
-        campaign: data.campaign,
+        campaign: campaign.name,
+        campaignId: campaign.id,
         isTaxReceiptRequested: data.isTaxReceiptRequested,
       });
     } else {
@@ -137,7 +140,7 @@ export async function POST(req: NextRequest) {
         donationReference,
         internalId: donationReference,
         donorName: data.donorName,
-        donorEmail: data.donorEmail || "anonymous@deeprootsfoundation.org",
+        donorEmail: data.donorEmail || "",
         donorPhone: data.donorPhone,
         donorPan: data.donorPan,
         amount: data.amount,
@@ -149,7 +152,8 @@ export async function POST(req: NextRequest) {
         providerOrderId: providerOrderId,
         status: "pending",
         paymentStatus: "pending",
-        campaign: data.campaign,
+        campaign: campaign.name,
+        campaignId: campaign.id,
         isTaxReceiptRequested: data.isTaxReceiptRequested,
       });
     }

@@ -64,7 +64,7 @@ export default function HungerFreeCampaignPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       {/* Shares the chosen amount between the donation card, level cards, sponsorships and sticky bar. */}
-      <DonationProvider>
+      <DonationProvider campaignId="hunger-free">
         <main className="flex-1">
           <CampaignHero />
           <TaglineBand />

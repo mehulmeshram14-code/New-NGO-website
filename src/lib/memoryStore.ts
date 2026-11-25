@@ -25,6 +25,7 @@ export interface StoredDonation {
   status: "pending" | "authorized" | "captured" | "failed" | "refunded";
   paymentStatus: "pending" | "awaiting_verification" | "successful" | "failed" | "cancelled" | "refunded";
   campaign: string;
+  campaignId?: string; // key in src/data/campaigns.ts
   isTaxReceiptRequested: boolean;
   notes?: string;
   createdAt: string;

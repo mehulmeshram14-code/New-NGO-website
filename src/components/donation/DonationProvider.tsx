@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
-import { DEFAULT_AMOUNT, donationLevels } from "@/data/donation";
+import { getCampaign, type Campaign, type CampaignId } from "@/data/campaigns";
 
 export type DonationStep = "amount" | "details" | "done";
 
@@ -9,6 +9,8 @@ export type DonationStep = "amount" | "details" | "done";
 export const DONATION_CARD_ID = "donate";
 
 interface DonationContextValue {
+  /** The campaign every donation on this page belongs to (levels, wording, receipt). */
+  campaign: Campaign;
   /** Amount chosen from the preset buttons (ignored while customInput is non-empty). */
   presetAmount: number;
   /** Raw digits typed into "Other amount". */
@@ -28,8 +30,9 @@ interface DonationContextValue {
 
 const DonationContext = createContext<DonationContextValue | null>(null);
 
-export function DonationProvider({ children }: { children: ReactNode }) {
-  const [presetAmount, setPresetAmount] = useState(DEFAULT_AMOUNT);
+export function DonationProvider({ campaignId, children }: { campaignId: CampaignId; children: ReactNode }) {
+  const campaign = getCampaign(campaignId);
+  const [presetAmount, setPresetAmount] = useState(campaign.defaultAmount);
   const [customInput, setCustomInputState] = useState("");
   const [step, setStep] = useState<DonationStep>("amount");
 
@@ -49,7 +52,7 @@ export function DonationProvider({ children }: { children: ReactNode }) {
       if (value !== undefined) {
         // Preset buttons only cover the giving levels; other amounts (e.g. sponsorships)
         // go into "Other amount" so the donor can see exactly what they chose.
-        if (donationLevels.some((level) => level.amount === value)) {
+        if (campaign.levels.some((level) => level.amount === value)) {
           setPresetAmount(value);
           setCustomInputState("");
         } else {
@@ -62,12 +65,12 @@ export function DonationProvider({ children }: { children: ReactNode }) {
       // Move keyboard focus to the card so screen-reader and keyboard users land there too.
       card?.focus({ preventScroll: true });
     },
-    []
+    [campaign]
   );
 
   const value = useMemo(
-    () => ({ presetAmount, customInput, amount, step, setStep, choosePreset, setCustomInput, startDonation }),
-    [presetAmount, customInput, amount, step, choosePreset, setCustomInput, startDonation]
+    () => ({ campaign, presetAmount, customInput, amount, step, setStep, choosePreset, setCustomInput, startDonation }),
+    [campaign, presetAmount, customInput, amount, step, choosePreset, setCustomInput, startDonation]
   );
 
   return <DonationContext.Provider value={value}>{children}</DonationContext.Provider>;

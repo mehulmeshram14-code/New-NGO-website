@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { Heart } from "lucide-react";
 import { DONATION_CARD_ID, useDonation } from "./DonationProvider";
+import { BUTTON_TONES } from "./DonationCard";
+import { cn } from "@/components/ui/Button";
 import { formatINR, mealsFor, MIN_DONATION } from "@/data/donation";
 
 /**
@@ -11,7 +13,7 @@ import { formatINR, mealsFor, MIN_DONATION } from "@/data/donation";
  * donation is complete.
  */
 export function StickyDonateBar() {
-  const { amount, step, startDonation } = useDonation();
+  const { campaign, amount, step, startDonation } = useDonation();
   const [cardVisible, setCardVisible] = useState(true);
 
   useEffect(() => {
@@ -42,7 +44,10 @@ export function StickyDonateBar() {
         <button
           type="button"
           onClick={() => startDonation()}
-          className="inline-flex shrink-0 items-center gap-2 rounded-full bg-accent-gold-deep px-5 py-3 font-bold text-white transition-colors hover:bg-primary-brown focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold-deep focus-visible:ring-offset-2"
+          className={cn(
+            "inline-flex shrink-0 items-center gap-2 rounded-full px-5 py-3 font-bold text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+            BUTTON_TONES[campaign.card.accent]
+          )}
         >
           <Heart className="h-4 w-4 fill-white" />
           Donate {validAmount ? formatINR(amount) : ""}

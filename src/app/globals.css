@@ -14,6 +14,8 @@
   --color-primary-green: #597349;
   --color-primary-green-deep: #2C3B26;
   --color-primary-brown: #4A311D;
+  /* Footer of campaign landing pages; ivory text on it is ~15:1. */
+  --color-primary-brown-deep: #2B1B10;
   --color-accent-gold: #E89230;
   --color-accent-gold-deep: #935610;
   --color-accent-gold-light: #F3BC74;

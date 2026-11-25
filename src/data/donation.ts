@@ -16,7 +16,8 @@ export interface DonationLevel {
   /** Short name for the giving level (Hindi/Marathi words, written in English). */
   name: string;
   description: string;
-  badge?: "Popular" | "Best impact";
+  /** Small label on the card, e.g. "Popular". */
+  badge?: string;
 }
 
 export const DEFAULT_AMOUNT = 1000;
@@ -39,9 +40,3 @@ export const sponsorships = [
   { title: "Sponsor a week", amount: 70000, detail: "Seven days of meal seva, cooked and served by our volunteers." },
   { title: "Sponsor a month", amount: 300000, detail: "For businesses and CSR teams: thirty days of meal seva." },
 ];
-
-/** Donations made from /donate rather than a specific campaign page. */
-export const generalDonation = {
-  campaignName: "General Donation",
-  purpose: "Food security & community upliftment",
-};

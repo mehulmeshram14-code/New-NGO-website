@@ -23,11 +23,9 @@ export interface FaqItem {
  * no achievement claims (no meals-served counters or targets); every number on it
  * is derived from the ₹50 cost of one meal.
  */
+// Campaign identity (name, cause, receipt and share text) lives in src/data/campaigns.ts
+// under the "hunger-free" id; this file is the page copy only.
 export const hungerFreeCampaign = {
-  // Sent to Razorpay / stored on the donation record.
-  campaignName: "Hunger Free - Vidarbha",
-  purpose: "Hunger relief in Vidarbha",
-
   hero: {
     eyebrow: "Hunger Free Vidarbha",
     titleLead: "No one in Vidarbha should",
